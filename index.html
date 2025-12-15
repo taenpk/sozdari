@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- SEO OPTIMIZATION -->
-    <title>Sozdari | Песня в подарок, Оживление фото, Веб-квесты</title>
-    <meta name="description" content="Студия цифровых подарков Sozdari. Песни под ключ, оживление фото, веб-квесты, уникальный Нейро-Подарок 2026. Срочное изготовление.">
-    <meta name="keywords" content="Sozdari, создари, песня на заказ, оживление фото цена, веб квест купить, гендер пати онлайн, нейро подарок 2026, подарок на свадьбу сайт, видео на корпоратив заказать">
+    <title>Sozdari (Создари) | Цифровые подарки: Песни, Оживление фото, Веб-квесты</title>
+    <meta name="description" content="Студия цифровых подарков Sozdari (Создари). Закажите уникальные эмоции: песни под ключ, оживление фото, веб-квесты, видео поздравления от Деда Мороза и нейро-подарки 2026. Срочное изготовление за 1 день.">
+    <meta name="keywords" content="Sozdari, создари, sozdari ru, sozdariru, создари ру, sozdari.ru, песня на заказ, оживление фото цена, веб квест купить, гендер пати онлайн, нейро подарок 2026, подарок на свадьбу сайт, видео на корпоратив заказать, цифровой подарок">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <link rel="canonical" href="https://sozdari.ru/">
     
     <!-- Open Graph -->
     <meta property="og:locale" content="ru_RU">
     <meta property="og:site_name" content="Sozdari">
-    <meta property="og:title" content="Sozdari — Эмоции в цифровом формате">
-    <meta property="og:description" content="Уникальные подарки: песни, видео-оживление, квесты и поздравления. Удиви близких!">
+    <meta property="og:title" content="Sozdari — Дарите эмоции, а не вещи">
+    <meta property="og:description" content="Уникальные цифровые подарки: песни, видео-оживление, квесты и поздравления. Удивите близких, даже если вы далеко!">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&q=80">
     <meta property="og:url" content="https://sozdari.ru">
@@ -33,6 +33,7 @@
       "@context": "https://schema.org",
       "@type": "ProfessionalService",
       "name": "Sozdari",
+      "alternateName": ["Создари", "Sozdari.ru"],
       "image": "https://images.unsplash.com/photo-1563089145-599997674d42",
       "@id": "https://sozdari.ru",
       "url": "https://sozdari.ru",
@@ -41,7 +42,7 @@
         "@type": "PostalAddress",
         "addressCountry": "RU"
       },
-      "priceRange": "300₽ - 9000₽",
+      "priceRange": "300₽ - 20000₽",
       "description": "Студия создания уникальных цифровых подарков Sozdari."
     }
     </script>
@@ -65,14 +66,24 @@
         .btn-hero { display: inline-flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
         .btn-hero:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(0,0,0,0.3); }
 
-        /* Видео контейнеры */
-        /* Стандартный контейнер 16:9 */
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; background: #000; border: 1px solid #334155; }
-        .video-container iframe, .video-container video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
-
-        /* Вертикальный контейнер теперь тоже 16:9 (стандартный), чтобы видео было "с полями" и не растягивалось */
-        .video-container-vertical { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; background: #000; border: 1px solid #334155; }
-        .video-container-vertical iframe, .video-container-vertical video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; }
+        /* Видео контейнеры - ЕДИНЫЙ СТАНДАРТ 16:9 */
+        .video-container { 
+            position: relative; 
+            padding-bottom: 56.25%; /* 16:9 для всех */
+            height: 0; 
+            overflow: hidden; 
+            border-radius: 12px; 
+            background: #000; /* Черный фон */
+            border: 1px solid #334155; 
+        }
+        .video-container iframe, .video-container video { 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; /* Видео вписывается, сохраняя пропорции */
+        }
 
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
@@ -275,19 +286,23 @@
                 <span class="text-amber-500 text-2xl"><i class="fas fa-star"></i></span>
             </div>
             <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- CARD 1 -->
                 <div class="bg-[#13141f] p-8 rounded-2xl border border-red-500/20 relative overflow-hidden flex flex-col h-full">
                     <h3 class="text-2xl font-bold text-white mb-4">🎅 Поздравление от Деда Мороза</h3>
                     <p class="text-slate-400 mb-6">Дед Мороз обратится по имени, покажет фото ребенка. Также он поздравит и озвучит пожелание — всё по вашему тексту. + Подарок в конце мы можем сделать в точно такой же упаковке, как вы собираетесь дарить.</p>
                     <div class="video-container mb-4 border-red-900/30 relative z-20">
                         <video controls playsinline class="absolute inset-0 w-full h-full object-cover rounded-xl"><source src="NG.mp4" type="video/mp4"></video>
                     </div>
-                    <div class="mt-auto"><p class="text-red-400 font-bold mb-3 text-lg">от 5 000 ₽</p><a href="#contact" class="text-red-400 font-bold hover:text-red-300 text-sm">Узнать детали -></a></div>
+                    <!-- ЦЕНА ИСПРАВЛЕНА -->
+                    <div class="mt-auto"><p class="text-amber-400 font-bold mb-3 text-lg">от 2 500 ₽</p><a href="#contact" class="text-red-400 font-bold hover:text-red-300 text-sm">Узнать детали -></a></div>
                 </div>
+                <!-- CARD 2 -->
                 <div class="bg-[#13141f] p-8 rounded-2xl border border-amber-500/20 relative overflow-hidden flex flex-col h-full">
                     <h3 class="text-2xl font-bold text-white mb-2"><i class="fas fa-horse text-amber-500 mr-1"></i><i class="fas fa-fire text-red-500 mr-2"></i> Новогоднее видео в стиле reels</h3>
                     <span class="bg-amber-500/20 text-amber-400 text-xs font-bold px-2 py-1 rounded mb-4 inline-block">ХИТ</span>
                     <p class="text-slate-400 mb-6">Уникальный подарок. Символ Года или другой персонаж (на выбор) делает поздравление или дает предсказание по вашему тексту.</p>
-                    <div class="video-container-vertical mb-4 border-amber-500/30 relative z-20">
+                    <!-- ЕДИНЫЙ КЛАСС ДЛЯ ВЫРАВНИВАНИЯ -->
+                    <div class="video-container mb-4 border-amber-500/30 relative z-20">
                         <video controls playsinline class="absolute inset-0 w-full h-full object-cover rounded-xl"><source src="Zac.mp4" type="video/mp4"></video>
                     </div>
                     <div class="mt-auto"><p class="text-2xl font-bold text-white mb-3">от 590 ₽</p><a href="#contact" class="inline-block bg-amber-500 hover:bg-amber-600 text-black font-bold py-3 px-8 rounded-lg transition w-full text-center">Подарить</a></div>
