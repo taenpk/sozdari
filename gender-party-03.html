@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Boy or Girl?</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* Нежный градиент: розовый и голубой */
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            min-height: 100vh;
+            color: #4a4a4a;
+            overflow: hidden; /* Чтобы не скроллилось при тапах */
+            user-select: none; /* Защита от выделения текста при быстрой игре */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Плавающие фигуры */
+        .blob {
+            position: absolute;
+            filter: blur(60px);
+            z-index: -1;
+            opacity: 0.8;
+            animation: float 12s infinite alternate;
+        }
+        .blob-1 { top: -50px; left: -50px; width: 300px; height: 300px; background: #8fd3f4; border-radius: 50%; }
+        .blob-2 { bottom: -50px; right: -50px; width: 350px; height: 350px; background: #ff9a9e; border-radius: 50%; animation-delay: -5s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -30px) scale(1.05); }
+        }
+
+        /* Светлая карточка */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Кнопки ответов */
+        .option-btn {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+            color: #555;
+            border: 2px solid transparent;
+        }
+        .option-btn:active {
+            transform: scale(0.98);
+            background: white;
+        }
+        .option-btn.selected {
+            background: linear-gradient(90deg, #8fd3f4, #ff9a9e);
+            color: white;
+            font-weight: bold;
+            transform: scale(1.02);
+            border: none;
+        }
+
+        /* Пин-код кнопки */
+        .numpad-btn {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: transform 0.1s;
+        }
+        .numpad-btn:active {
+            transform: scale(0.9);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Анимации */
+        .slide-up { animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        .title-font { font-family: 'Pacifico', cursive; }
+
+        /* Шар для тапов */
+        #balloon-emoji {
+            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-block;
+            cursor: pointer;
+            filter: drop-shadow(0 10px 10px rgba(0,0,0,0.1));
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 relative h-screen w-screen">
+
+    <!-- Фоновые элементы -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <!-- Контейнер приложения -->
+    <main class="w-full max-w-md relative z-10">
+        
+        <!-- ЭКРАН 1: Ввод ПИН-кода -->
+        <div id="pin-screen" class="glass-card rounded-[40px] p-8 text-center slide-up">
+            <div class="mb-4">
+                <i class="fas fa-lock text-3xl text-gray-400 mb-2"></i>
+                <h2 class="text-2xl font-bold text-gray-600">Секретный доступ</h2>
+                <p class="text-sm text-gray-400">Введите код: 1234</p>
+            </div>
+            
+            <!-- Индикатор точек -->
+            <div class="flex justify-center gap-4 mb-8 h-8" id="pin-dots">
+                <div class="w-4 h-4 rounded-full bg-gray-300 transition-colors"></div>
+                <div class="w-4 h-4 rounded-full bg-gray-300 transition-colors"></div>
+                <div class="w-4 h-4 rounded-full bg-gray-300 transition-colors"></div>
+                <div class="w-4 h-4 rounded-full bg-gray-300 transition-colors"></div>
+            </div>
+
+            <!-- Клавиатура -->
+            <div class="grid grid-cols-3 gap-4 max-w-[280px] mx-auto">
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(1)">1</button>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(2)">2</button>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(3)">3</button>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(4)">4</button>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(5)">5</button>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(6)">6</button>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(7)">7</button>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(8)">8</button>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(9)">9</button>
+                <div class="w-full aspect-square"></div>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-2xl font-bold text-gray-600 shadow-sm" onclick="pinApp.add(0)">0</button>
+                <button class="numpad-btn w-full aspect-square rounded-2xl text-xl font-bold text-red-400 shadow-sm flex items-center justify-center" onclick="pinApp.clear()"><i class="fas fa-backspace"></i></button>
+            </div>
+        </div>
+
+        <!-- ЭКРАН 2: Приветствие и начало квеста -->
+        <div id="start-screen" class="hidden glass-card rounded-[40px] p-10 text-center slide-up">
+            <div class="mb-8 relative inline-block">
+                <div class="absolute inset-0 bg-white blur-xl opacity-50 rounded-full"></div>
+                <div class="relative text-6xl animate-bounce">👶</div>
+            </div>
+            <h1 class="text-4xl mb-4 title-font bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-pink-400 pb-2">
+                Доступ разрешен!
+            </h1>
+            <p class="text-gray-600 mb-8 text-lg font-medium leading-relaxed">
+                Мальчик или Девочка?<br>
+                Пройдите этот маленький квест, чтобы узнать наш большой секрет! ✨
+            </p>
+            <button onclick="quizApp.start()" class="w-full py-4 bg-white text-gray-700 rounded-2xl font-bold text-xl shadow-lg hover:shadow-xl transition-all border border-white/50 active:scale-95">
+                Начать квест ❤️
+            </button>
+        </div>
+
+        <!-- ЭКРАН 3: Игра (Вопросы) -->
+        <div id="game-screen" class="hidden glass-card rounded-[40px] p-8 slide-up min-h-[500px] flex flex-col">
+            <div class="flex justify-center mb-8">
+                <div class="px-4 py-2 rounded-full bg-white/50 text-sm font-bold text-gray-500 shadow-sm">
+                    ВОПРОС <span id="current-q-num">1</span> из <span id="total-q-num">3</span>
+                </div>
+            </div>
+
+            <div class="flex-grow flex items-center justify-center mb-8">
+                <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-center text-gray-700 leading-tight">
+                    Загрузка...
+                </h2>
+            </div>
+
+            <div id="options-container" class="space-y-4">
+                <!-- Кнопки генерируются JS -->
+            </div>
+        </div>
+
+        <!-- ЭКРАН 4: Тап-игра (Надувание шара) -->
+        <div id="tap-screen" class="hidden glass-card rounded-[40px] p-8 text-center slide-up min-h-[500px] flex flex-col justify-center items-center">
+            <h2 class="text-2xl font-bold text-gray-600 mb-2">Момент истины!</h2>
+            <p class="text-gray-500 mb-10">Быстро нажимайте на яйцо, чтобы оно раскрылось!</p>
+            
+            <div class="relative w-full flex justify-center py-10">
+                <!-- Элемент для тапов -->
+                <div id="balloon-emoji" onclick="tapGame.tap()" class="text-[100px] select-none touch-manipulation">
+                    🥚
+                </div>
+            </div>
+
+            <p class="text-sm text-pink-400 font-bold animate-pulse mt-8 uppercase tracking-widest">
+                ТЫК-ТЫК-ТЫК! 👇
+            </p>
+        </div>
+
+        <!-- ЭКРАН 5: Результат (Gender Reveal) -->
+        <div id="result-screen" class="hidden glass-card rounded-[40px] p-10 text-center slide-up relative overflow-hidden">
+            <div class="mb-6 animate-bounce">
+                <span id="gender-icon" class="text-8xl block drop-shadow-lg">🎁</span>
+            </div>
+            
+            <h2 class="text-xl font-bold text-gray-500 mb-2 uppercase tracking-widest">Мы рады сообщить...</h2>
+            
+            <h1 id="reveal-text" class="text-5xl md:text-6xl mb-8 title-font pb-2 opacity-0 transition-opacity duration-1000">
+                ...
+            </h1>
+            
+            <p id="reveal-subtext" class="text-gray-600 text-lg mb-8 font-medium">
+                Спасибо, что разделили с нами этот момент!
+            </p>
+
+            <button onclick="location.reload()" class="px-8 py-3 bg-white/50 rounded-full font-semibold text-gray-600 hover:bg-white transition-colors text-sm shadow-sm">
+                Пройти заново 🔄
+            </button>
+        </div>
+
+    </main>
+
+    <script>
+        // --- НАСТРОЙКИ ---
+        // Пароль для входа
+        const ACCESS_PIN = "1234"; 
+        // Пол ребенка: 'boy' (мальчик) или 'girl' (девочка)
+        const BABY_GENDER = 'girl'; 
+        // -----------------
+
+        // --- ЛОГИКА ПИН-КОДА ---
+        const pinApp = {
+            input: "",
+            
+            add(num) {
+                if (this.input.length < 4) {
+                    this.input += num;
+                    this.updateDots();
+                    if (this.input.length === 4) {
+                        setTimeout(() => this.check(), 300);
+                    }
+                }
+            },
+
+            clear() {
+                this.input = this.input.slice(0, -1);
+                this.updateDots();
+            },
+
+            updateDots() {
+                const dots = document.getElementById('pin-dots').children;
+                for (let i = 0; i < 4; i++) {
+                    if (i < this.input.length) {
+                        dots[i].classList.remove('bg-gray-300');
+                        dots[i].classList.add('bg-gray-600', 'scale-110');
+                    } else {
+                        dots[i].classList.remove('bg-gray-600', 'scale-110');
+                        dots[i].classList.add('bg-gray-300');
+                    }
+                }
+            },
+
+            check() {
+                if (this.input === ACCESS_PIN) {
+                    screenManager.show('start-screen');
+                } else {
+                    // Ошибка
+                    const card = document.getElementById('pin-screen');
+                    card.classList.add('shake');
+                    setTimeout(() => {
+                        card.classList.remove('shake');
+                        this.input = "";
+                        this.updateDots();
+                    }, 500);
+                }
+            }
+        };
+
+        // --- ЛОГИКА ТАП-ИГРЫ (ШАР) ---
+        const tapGame = {
+            taps: 0,
+            requiredTaps: 15, // Сколько раз нужно нажать
+            element: document.getElementById('balloon-emoji'),
+
+            start() {
+                this.taps = 0;
+                this.element.style.transform = 'scale(1)';
+                this.element.innerText = '🥚'; 
+                screenManager.show('tap-screen');
+            },
+
+            tap() {
+                this.taps++;
+                
+                // Вибрация телефона при тапе (если поддерживается)
+                if (navigator.vibrate) navigator.vibrate(40);
+
+                // Увеличение размера
+                const scale = 1 + (this.taps * 0.1);
+                // Случайный наклон для живости
+                const rotate = (Math.random() - 0.5) * 20;
+                
+                this.element.style.transform = `scale(${scale}) rotate(${rotate}deg)`;
+
+                // Смена эмодзи при нагреве
+                if (this.taps === 5) this.element.innerText = '🐣'; // Трещинка
+                if (this.taps === 10) this.element.innerText = '🐥'; // Почти вылез
+
+                // Финал
+                if (this.taps >= this.requiredTaps) {
+                    this.explode();
+                }
+            },
+
+            explode() {
+                // Анимация взрыва
+                this.element.style.transition = "all 0.1s";
+                this.element.style.transform = "scale(3) opacity(0)";
+                this.element.style.opacity = "0";
+                
+                if (navigator.vibrate) navigator.vibrate([100, 50, 100]); // Длинная вибрация
+                
+                // Переход к результату
+                setTimeout(() => {
+                    quizApp.showFinalResult();
+                }, 300);
+            }
+        };
+
+        // --- ДАННЫЕ КВИЗА ---
+        const quizData = [
+            {
+                question: "Как вы думаете, на кого малыш будет похож?",
+                options: ["На Папу 😎", "На Маму 🥰", "На Бабушку 👵", "На Дедушку 👴"],
+                comment: "Гены - сильная штука! 🧬"
+            },
+            {
+                question: "Что маме хотелось есть больше всего?",
+                options: ["Сладкое 🍰", "Соленое 🥒", "Мясо 🥩", "Фрукты 🍇"],
+                comment: "Вкусы менялись каждый день! 😋"
+            },
+            {
+                question: "Что подсказывает вам ваша интуиция?",
+                options: ["Точно Мальчик! ⚽", "Конечно Девочка! 🎀", "Двойня?! 👯", "Главное - здоровый! ❤️"],
+                comment: "Интуиция сейчас будет проверена! 🔮"
+            }
+        ];
+
+        // --- ЛОГИКА КВИЗА ---
+        const quizApp = {
+            currentQIndex: 0,
+            
+            ui: {
+                question: document.getElementById('question-text'),
+                options: document.getElementById('options-container'),
+                currentNum: document.getElementById('current-q-num'),
+                totalNum: document.getElementById('total-q-num'),
+                revealText: document.getElementById('reveal-text'),
+                genderIcon: document.getElementById('gender-icon')
+            },
+
+            start() {
+                this.currentQIndex = 0;
+                screenManager.show('game-screen');
+                this.loadQuestion();
+            },
+
+            loadQuestion() {
+                const q = quizData[this.currentQIndex];
+                
+                this.ui.question.innerText = q.question;
+                this.ui.currentNum.innerText = this.currentQIndex + 1;
+                this.ui.totalNum.innerText = quizData.length;
+                
+                this.ui.options.innerHTML = '';
+                
+                q.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.className = `option-btn w-full p-5 text-left rounded-2xl text-lg font-bold shadow-sm flex justify-between items-center group`;
+                    btn.innerHTML = `
+                        <span>${opt}</span>
+                        <i class="fas fa-heart text-pink-200 group-hover:text-pink-400 transition-colors"></i>
+                    `;
+                    
+                    btn.style.opacity = '0';
+                    btn.style.animation = `slideUp 0.4s ease-out forwards ${index * 0.1}s`;
+                    
+                    btn.onclick = () => this.selectAnswer(btn, q.comment);
+                    this.ui.options.appendChild(btn);
+                });
+            },
+
+            selectAnswer(btnElement, comment) {
+                const allBtns = this.ui.options.querySelectorAll('button');
+                allBtns.forEach(b => b.disabled = true);
+                btnElement.classList.add('selected');
+                
+                const originalText = this.ui.question.innerText;
+                this.ui.question.innerHTML = `<span class="text-pink-500">${comment}</span>`;
+
+                setTimeout(() => {
+                    this.currentQIndex++;
+                    if (this.currentQIndex < quizData.length) {
+                        this.loadQuestion();
+                    } else {
+                        // Вместо сразу результата - запускаем Тап-Игру
+                        tapGame.start();
+                    }
+                }, 1500);
+            },
+
+            showFinalResult() {
+                screenManager.show('result-screen');
+                const textEl = this.ui.revealText;
+                const iconEl = this.ui.genderIcon;
+                let confettiColors = [];
+
+                if (BABY_GENDER === 'boy') {
+                    textEl.innerText = "Это МАЛЬЧИК!";
+                    textEl.classList.add('text-blue-500');
+                    iconEl.innerText = "👶🏼";
+                    confettiColors = ['#60a5fa', '#3b82f6', '#ffffff']; // Синие
+                } else {
+                    textEl.innerText = "Это ДЕВОЧКА!";
+                    textEl.classList.add('text-pink-500');
+                    iconEl.innerText = "👧🏼";
+                    confettiColors = ['#f472b6', '#db2777', '#ffffff']; // Розовые
+                }
+
+                setTimeout(() => {
+                    textEl.style.opacity = '1';
+                    textEl.classList.add('scale-110');
+                }, 500);
+
+                // ЗАПУСК КОНФЕТТИ
+                this.fireConfetti(confettiColors);
+            },
+
+            fireConfetti(colors) {
+                const duration = 3000;
+                const end = Date.now() + duration;
+
+                (function frame() {
+                    confetti({
+                        particleCount: 5,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: colors
+                    });
+                    confetti({
+                        particleCount: 5,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: colors
+                    });
+
+                    if (Date.now() < end) {
+                        requestAnimationFrame(frame);
+                    }
+                }());
+            }
+        };
+
+        // --- УПРАВЛЕНИЕ ЭКРАНАМИ ---
+        const screenManager = {
+            screens: ['pin-screen', 'start-screen', 'game-screen', 'tap-screen', 'result-screen'],
+            
+            show(screenId) {
+                this.screens.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (id === screenId) {
+                        el.classList.remove('hidden');
+                        el.classList.remove('slide-up');
+                        void el.offsetWidth; // Триггер reflow для перезапуска анимации
+                        el.classList.add('slide-up');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                });
+            }
+        };
+
+        // Инициализация: показываем только пин-экран (остальные скрыты классом hidden в HTML)
+    </script>
+</body>
+</html>
