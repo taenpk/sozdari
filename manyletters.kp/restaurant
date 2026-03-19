@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMM для Ресторана | Manyletters</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1E1E1E;
+            --text-main: #FFFFFF;
+            --text-muted: #A0A0A0;
+            --accent: #FF5C00; /* Яркий конверсионный оранжевый */
+            --accent-hover: #E05000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--text-main);
+        }
+
+        .logo span {
+            color: var(--accent);
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: var(--accent);
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 6px;
+            font-weight: 500;
+            display: inline-block;
+            transition: background 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero-subtitle {
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+        }
+
+        /* Section Global */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        /* Problem vs Solution */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #333;
+        }
+
+        .card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .card p, .card ul {
+            color: var(--text-muted);
+        }
+
+        .card ul {
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+
+        .card li {
+            margin-bottom: 10px;
+        }
+
+        /* Services Grid */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .service-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border-top: 4px solid var(--accent);
+        }
+
+        /* Trust Section */
+        .trust-tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .tag {
+            background-color: #2A2A2A;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background-color: var(--card-bg);
+            padding: 80px 20px;
+            border-radius: 12px;
+            margin-bottom: 80px;
+        }
+
+        .cta-section h2 {
+            font-size: 32px;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .section-title { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div class="logo">Many<span>letters</span></div>
+            <a href="#contact" class="btn" style="padding: 10px 20px; font-size: 14px;">Обсудить проект</a>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-subtitle">Индивидуальное предложение для вашего ресторана</div>
+            <h1>SMM, который бронирует столы, а не собирает лайки</h1>
+            <p>Превращаем охваты в реальную выручку. Performance-подход к продвижению общепита от сертифицированного агентства Manyletters.</p>
+            <a href="#contact" class="btn">Получить стратегию продвижения</a>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="grid-2">
+            <div class="card">
+                <h3>90% агентств продают вам «метрики тщеславия»</h3>
+                <p>Красивая лента, рост подписчиков и сотни лайков под фото стейка — это отлично. Но как это влияет на кассу в конце смены?</p>
+                <ul>
+                    <li>Сложно отследить, откуда пришел гость.</li>
+                    <li>В выходные посадка есть, а в будни зал пустует.</li>
+                    <li>Бюджет на таргет «скликивается», а стоимость брони космос.</li>
+                </ul>
+            </div>
+            <div class="card" style="border-color: var(--accent);">
+                <h3>Наш подход: Взрослая аналитика для HoReCa</h3>
+                <p>Мы работаем со сложными B2B-нишами, недвижимостью и финансами с 2013 года. Мы привыкли считать каждый рубль клиента и применяем этот жесткий подход для вашего ресторана.</p>
+                <ul>
+                    <li><strong>CAC:</strong> Считаем стоимость привлечения каждого гостя.</li>
+                    <li><strong>CRM:</strong> Связываем соцсети с вашей iiko / R-Keeper.</li>
+                    <li><strong>ROI:</strong> Отвечаем за окупаемость рекламных инвестиций.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="section-title">Как мы обеспечим полную посадку?</h2>
+        <div class="grid-4">
+            <div class="service-card">
+                <h3>Глубокая аналитика</h3>
+                <p>Аудит конкурентов, разработка УТП и медиаплана с четким прогнозом по лидам и броням.</p>
+            </div>
+            <div class="service-card">
+                <h3>Генерация трафика</h3>
+                <p>Ювелирный таргет: по гео-точкам (радиус 2 км), на конкурентов и ретаргетинг на вашу текущую базу.</p>
+            </div>
+            <div class="service-card">
+                <h3>Контент-маркетинг</h3>
+                <p>Съемка Reels с виральным потенциалом и сочный food-визуал, вызывающий желание прийти к вам немедленно.</p>
+            </div>
+            <div class="service-card">
+                <h3>Сквозная аналитика</h3>
+                <p>Прозрачные ежемесячные отчеты. Вы видите воронку от первого клика до закрытого чека.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container text-center">
+        <h2 class="section-title">Почему Manyletters?</h2>
+        <div class="trust-tags">
+            <div class="tag">На рынке с 2013 года</div>
+            <div class="tag">Сертифицированный партнер Яндекса</div>
+            <div class="tag">Сертифицированный партнер ВКонтакте</div>
+            <div class="tag">Кейс: сеть «Уральские пельмени»</div>
+            <div class="tag">Работаем только на результат</div>
+        </div>
+    </section>
+
+    <section class="container" id="contact">
+        <div class="cta-section">
+            <h2>Готовы увидеть план роста вашего ресторана?</h2>
+            <p>Давайте проведем короткую Zoom-встречу. Мы покажем честный аудит ваших текущих соцсетей и предложим 3 нестандартные механики привлечения гостей уже на эти выходные.</p>
+            <a href="mailto:sales@manyletters.ru" class="btn">Назначить онлайн-встречу</a>
+        </div>
+    </section>
+
+</body>
+</html>
