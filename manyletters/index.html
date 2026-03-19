@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMM для Ресторана | Коммерческое предложение</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-light: #F4F6FB;
-            --bg-blue: #3E54ED; /* Фирменный синий со скринов */
+            --bg-blue: #3E54ED; 
             --bg-dark-blue: #2A3AB8;
-            --accent-pink: #FF55FF; /* Фирменный розовый со скринов */
+            --accent-pink: #FF55FF; 
             --accent-hover: #E040E0;
             --text-main: #333333;
             --text-white: #FFFFFF;
@@ -33,7 +33,7 @@
 
         h1, h2, h3 {
             font-family: 'Montserrat', sans-serif;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         a {
@@ -56,7 +56,7 @@
         .logo {
             font-family: 'Montserrat', sans-serif;
             font-size: 24px;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
@@ -66,7 +66,7 @@
             background-color: var(--accent-pink);
             color: var(--text-white);
             padding: 15px 35px;
-            border-radius: 50px; /* Круглые кнопки как на сайте */
+            border-radius: 50px; 
             font-weight: 600;
             font-size: 14px;
             text-transform: uppercase;
@@ -94,9 +94,9 @@
         .hero h1 {
             font-size: 52px;
             line-height: 1.2;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             color: #1A1A1A;
-            max-width: 800px;
+            max-width: 900px;
         }
 
         .hero h1 span {
@@ -106,12 +106,12 @@
         .hero p {
             font-size: 20px;
             color: #555;
-            max-width: 600px;
+            max-width: 700px;
             margin-bottom: 40px;
-            font-weight: 300;
+            font-weight: 400;
         }
 
-        /* Services Grid */
+        /* Sections & Grids */
         section {
             padding: 80px 0;
         }
@@ -119,13 +119,29 @@
         .section-title {
             font-size: 36px;
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 20px;
             color: #1A1A1A;
         }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 60px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-        .grid-3 {
+        .grid-2 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
         }
 
@@ -142,16 +158,6 @@
             transform: translateY(-5px);
         }
 
-        .card-number {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 48px;
-            font-weight: 300;
-            color: var(--bg-blue);
-            margin-bottom: 20px;
-            line-height: 1;
-            opacity: 0.3;
-        }
-
         .card h3 {
             font-size: 22px;
             margin-bottom: 15px;
@@ -159,25 +165,44 @@
         }
 
         .card p {
-            color: #666;
-            font-size: 15px;
-            font-weight: 300;
+            color: #555;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .card ul {
+            padding-left: 20px;
+            color: #555;
+        }
+
+        .card ul li {
+            margin-bottom: 10px;
+        }
+
+        .card-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--bg-blue);
+            margin-bottom: 15px;
+            line-height: 1;
+            opacity: 0.15;
         }
 
         /* Blue CTA Section */
         .cta-section {
             background: linear-gradient(135deg, var(--bg-blue) 0%, var(--bg-dark-blue) 100%);
             color: var(--text-white);
-            padding: 80px 20px;
+            padding: 80px 40px;
             border-radius: 20px;
             text-align: center;
-            margin: 40px auto 80px auto;
+            margin: 40px auto;
             max-width: 1000px;
             box-shadow: 0 20px 40px rgba(62, 84, 237, 0.3);
         }
 
         .cta-section h2 {
-            font-size: 32px;
+            font-size: 36px;
             margin-bottom: 20px;
         }
 
@@ -186,9 +211,15 @@
             margin-bottom: 40px;
             font-weight: 300;
             opacity: 0.9;
-            max-width: 600px;
+            max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        .manager-info {
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.8;
         }
 
         /* Trust Section */
@@ -208,17 +239,18 @@
 
         .tag {
             background-color: #F0F2F5;
-            padding: 12px 25px;
+            padding: 15px 30px;
             border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
+            font-size: 16px;
+            font-weight: 600;
             color: #333;
         }
 
         @media (max-width: 768px) {
             .hero h1 { font-size: 36px; }
             .hero p { font-size: 16px; }
-            .grid-3 { grid-template-columns: 1fr; }
+            .grid-2 { grid-template-columns: 1fr; }
+            .cta-section { padding: 40px 20px; }
         }
     </style>
 </head>
@@ -227,54 +259,86 @@
     <header>
         <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
             <div class="logo">Manyletters</div>
-            <a href="#contact" style="color: white; font-weight: 500; font-size: 14px;">ОБСУДИТЬ ПРОЕКТ</a>
+            <a href="https://t.me/JohnPzE" target="_blank" style="color: white; font-weight: 600; font-size: 14px; letter-spacing: 1px;">ОБСУДИТЬ ПРОЕКТ В TELEGRAM</a>
         </div>
     </header>
 
     <section class="hero">
         <div class="container">
-            <div style="color: var(--accent-pink); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; font-size: 14px;">Индивидуальное предложение для HoReCa</div>
+            <div style="color: var(--accent-pink); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 15px; font-size: 14px;">Индивидуальное коммерческое предложение</div>
             <h1>SMM, который бронирует столы, а не <span>собирает лайки</span></h1>
-            <p>Выстраиваем сквозную аналитику, связываем соцсети с iiko/R-Keeper и приводим реальных гостей в ваш ресторан.</p>
-            <a href="#contact" class="btn">Записаться на консультацию</a>
-        </div>
-    </section>
-
-    <section class="trust-section">
-        <div class="container tags-container">
-            <div class="tag">С 2013 года на рынке</div>
-            <div class="tag">150+ успешных стратегий</div>
-            <div class="tag">Слушаем звонки и анализируем воронку</div>
-            <div class="tag">Кейс: Уральские Пельмени</div>
+            <p>Превращаем охваты в реальную выручку. Performance-подход к продвижению ресторана от сертифицированного агентства Manyletters.</p>
+            <a href="https://t.me/JohnPzE" target="_blank" class="btn">Получить стратегию продвижения</a>
+            <div class="manager-info" style="color: #666; margin-top: 15px;">На связи ведущий специалист Евгений</div>
         </div>
     </section>
 
     <section class="container">
-        <h2 class="section-title">Как мы найдем верный путь в digital-джунглях</h2>
-        <div class="grid-3">
+        <div class="grid-2">
+            <div class="card">
+                <h3>90% агентств продают вам «метрики тщеславия»</h3>
+                <p>Красивая лента, рост подписчиков и сотни лайков под фото стейка — это отлично. Но как это влияет на кассу в конце смены?</p>
+                <ul>
+                    <li>Сложно отследить, откуда именно пришел гость.</li>
+                    <li>В выходные посадка есть, а в будни зал пустует.</li>
+                    <li>Бюджет на таргет «скликивается», а стоимость брони — космос.</li>
+                </ul>
+            </div>
+            <div class="card" style="border-left: 4px solid var(--accent-pink);">
+                <h3>Наш подход: Взрослая аналитика для HoReCa</h3>
+                <p>Мы работаем со сложными B2B-нишами, недвижимостью и финансами с 2013 года. Мы привыкли считать каждый рубль клиента. Этот же жесткий performance-подход мы применяем для вашего ресторана.</p>
+                <ul>
+                    <li><strong>CAC:</strong> Считаем точную стоимость привлечения каждого гостя.</li>
+                    <li><strong>CRM:</strong> Связываем соцсети напрямую с вашей iiko / R-Keeper.</li>
+                    <li><strong>ROI:</strong> Отвечаем за реальную окупаемость рекламных инвестиций.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="section-title">Как мы обеспечим полную посадку?</h2>
+        <p class="section-subtitle">4 ключевых инструмента, которые превратят подписчиков в постоянных гостей</p>
+        <div class="grid-4">
             <div class="card">
                 <div class="card-number">01</div>
-                <h3>Честный аудит</h3>
-                <p>Мы погружаемся в проект, анализируем ваших конкурентов, выявляем УТП и честно говорим, где теряются гости. Не работаем по шаблонам.</p>
+                <h3>Глубокая аналитика</h3>
+                <p>Проводим аудит конкурентов, разрабатываем УТП и медиаплан с четким прогнозом по лидам и броням.</p>
             </div>
             <div class="card">
                 <div class="card-number">02</div>
-                <h3>Таргетированная реклама</h3>
-                <p>Точный таргет по гео-точкам (радиус 2 км от ресторана), интересам и ретаргетинг на тех, кто уже взаимодействовал с вашим брендом. Снижаем CAC.</p>
+                <h3>Генерация трафика</h3>
+                <p>Ювелирный таргет — по гео-точкам (радиус 2 км), на аудиторию конкурентов и ретаргетинг на вашу текущую базу гостей.</p>
             </div>
             <div class="card">
                 <div class="card-number">03</div>
-                <h3>Аналитика воронки</h3>
-                <p>Ищем точки роста на каждом этапе. Внедряем промокоды, utm-метки, чтобы вы видели окупаемость каждого вложенного рубля.</p>
+                <h3>Контент-маркетинг</h3>
+                <p>Съемка Reels/Клипов с виральным потенциалом. Создаем сочный food-визуал, который вызывает аппетит и желание забронировать стол немедленно.</p>
             </div>
+            <div class="card">
+                <div class="card-number">04</div>
+                <h3>Сквозная аналитика</h3>
+                <p>Предоставляем прозрачные отчеты. Вы наглядно видите воронку от первого клика по рекламе до закрытого чека.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="trust-section">
+        <h2 class="section-title" style="margin-bottom: 40px;">Почему Manyletters?</h2>
+        <div class="container tags-container">
+            <div class="tag">На рынке с 2013 года. Работаем без сбоев</div>
+            <div class="tag">Сертифицированные партнеры Яндекса и VK</div>
+            <div class="tag">Успешный кейс продвижения сети «Уральские пельмени»</div>
+            <div class="tag">Не беремся за проекты, в которые не верим</div>
         </div>
     </section>
 
     <section class="container" id="contact">
         <div class="cta-section">
-            <h2>Готовы начать работу над вашим проектом?</h2>
-            <p>Оставьте заявку, мы свяжемся с вами, проведем аудит текущих соцсетей и предложим индивидуальный план по увеличению посадки в ресторане.</p>
-            <a href="mailto:sales@manyletters.ru" class="btn" style="background-color: var(--accent-pink); box-shadow: none;">ОСТАВИТЬ ЗАЯВКУ</a>
+            <h2>Готовы увидеть план роста вашего ресторана?</h2>
+            <p>Давайте проведем короткую zoom-встречу. Мы покажем честный аудит ваших текущих соцсетей и предложим 3 нестандартные механики привлечения гостей уже на эти выходные.</p>
+            <a href="https://t.me/JohnPzE" target="_blank" class="btn" style="background-color: var(--accent-pink); box-shadow: none; font-size: 16px; padding: 18px 40px;">Назначить онлайн-встречу</a>
+            <div class="manager-info">Вам ответит ведущий специалист коммерческого блока — Евгений</div>
         </div>
     </section>
 
