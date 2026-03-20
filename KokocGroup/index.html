@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Питч для Kokoc Group | Евгений Поздняк</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #F6F7F9;
+            --text-main: #1D1D1F;
+            --text-muted: #6E6E73;
+            --kokoc-red: #FF4242;
+            --card-bg: #FFFFFF;
+            --kokoc-hover-blue: #5B48FF;
+            --kokoc-hover-green: #8BF2A3;
+            --kokoc-hover-cyan: #4CE0D3;
+            --kokoc-hover-yellow: #FFEA6C;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Manrope', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .blob-1 {
+            position: absolute; top: -100px; right: -100px; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(139, 242, 163, 0.3) 0%, rgba(139, 242, 163, 0) 70%);
+            z-index: -1;
+        }
+        
+        .blob-2 {
+            position: absolute; top: 500px; left: -200px; width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(91, 72, 255, 0.15) 0%, rgba(91, 72, 255, 0) 70%);
+            z-index: -1;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        .hr-greeting {
+            background: rgba(255, 66, 66, 0.08);
+            border-left: 4px solid var(--kokoc-red);
+            padding: 16px 24px; border-radius: 0 16px 16px 0;
+            margin-top: 20px; font-size: 15px; font-weight: 500; color: #4A4A4A;
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 0 10px; }
+        .logo { font-size: 24px; font-weight: 800; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .logo-dots { color: var(--kokoc-red); font-size: 28px; line-height: 1; }
+
+        .btn {
+            background: linear-gradient(135deg, #FF5555 0%, #E63535 100%);
+            color: #FFFFFF; padding: 16px 36px; border-radius: 50px;
+            text-decoration: none; font-weight: 700; font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: inline-block; box-shadow: 0 8px 24px rgba(255, 66, 66, 0.25);
+            border: none; cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(255, 66, 66, 0.4);
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF2222 100%);
+        }
+
+        .hero { display: flex; align-items: center; justify-content: space-between; padding: 60px 0 100px; gap: 50px; }
+        .hero-text { flex: 1; }
+        .badge { display: inline-block; background: rgba(29, 29, 31, 0.05); padding: 8px 16px; border-radius: 50px; font-size: 14px; font-weight: 600; margin-bottom: 24px; color: var(--text-muted); }
+        .hero h1 { font-size: 52px; font-weight: 800; line-height: 1.1; margin-bottom: 24px; letter-spacing: -1px; }
+        .hero p { font-size: 18px; color: var(--text-muted); max-width: 600px; margin-bottom: 40px; }
+        .hero-image { width: 380px; height: 380px; border-radius: 50%; object-fit: cover; border: 8px solid #FFFFFF; box-shadow: 0 30px 60px rgba(0,0,0,0.08); flex-shrink: 0; transition: transform 0.5s ease; }
+        .hero-image:hover { transform: scale(1.03) rotate(-2deg); }
+
+        .section-title { font-size: 32px; font-weight: 800; margin-bottom: 40px; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-bottom: 120px; }
+        .card { background: var(--card-bg); border-radius: 30px; padding: 40px 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.03); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; display: flex; flex-direction: column; }
+        .card-title { font-size: 22px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; transition: color 0.3s ease; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; transition: transform 0.3s ease; }
+        .card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; transition: color 0.3s ease; }
+
+        .card:nth-child(1) .dot { background-color: var(--kokoc-hover-blue); }
+        .card:nth-child(1):hover { background-color: var(--kokoc-hover-blue); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(91, 72, 255, 0.2); }
+        .card:nth-child(1):hover .card-title, .card:nth-child(1):hover p { color: #FFFFFF; }
+        .card:nth-child(1):hover .dot { background-color: #FFFFFF; transform: scale(1.5); }
+
+        .card:nth-child(2) .dot { background-color: #2ED573; }
+        .card:nth-child(2):hover { background-color: var(--kokoc-hover-green); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(139, 242, 163, 0.3); }
+        .card:nth-child(2):hover .card-title, .card:nth-child(2):hover p { color: #1D1D1F; }
+        .card:nth-child(2):hover .dot { background-color: #1D1D1F; transform: scale(1.5); }
+
+        .card:nth-child(3) .dot { background-color: var(--kokoc-hover-cyan); }
+        .card:nth-child(3):hover { background-color: var(--kokoc-hover-cyan); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(76, 224, 211, 0.3); }
+        .card:nth-child(3):hover .card-title, .card:nth-child(3):hover p { color: #1D1D1F; }
+        .card:nth-child(3):hover .dot { background-color: #1D1D1F; transform: scale(1.5); }
+
+        .card:nth-child(4) .dot { background-color: #FFC312; }
+        .card:nth-child(4):hover { background-color: var(--kokoc-hover-yellow); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(255, 234, 108, 0.3); }
+        .card:nth-child(4):hover .card-title, .card:nth-child(4):hover p { color: #1D1D1F; }
+        .card:nth-child(4):hover .dot { background-color: #1D1D1F; transform: scale(1.5); }
+
+        .experience-section { background: #FFFFFF; border-radius: 40px; padding: 80px; margin-bottom: 60px; box-shadow: 0 10px 40px rgba(0,0,0,0.02); }
+        .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+        .exp-item h3 { font-size: 22px; margin-bottom: 16px; font-weight: 800; display: flex; align-items: center; gap: 12px; }
+        .exp-item h3::before { content: ''; display: block; width: 24px; height: 4px; background: var(--kokoc-red); border-radius: 2px; }
+        .exp-item p { color: var(--text-muted); font-size: 16px; margin-bottom: 12px; }
+
+        .hobby-section { background: #FFFFFF; border-radius: 40px; padding: 60px; margin-bottom: 120px; box-shadow: 0 10px 40px rgba(0,0,0,0.02); border: 1px solid rgba(255, 66, 66, 0.1); }
+
+        .cta-section { text-align: center; max-width: 800px; margin: 0 auto 100px; padding: 70px 40px; background: #FFFFFF; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); position: relative; overflow: hidden; }
+        .cta-section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, var(--kokoc-hover-blue), var(--kokoc-hover-cyan), var(--kokoc-hover-green), var(--kokoc-hover-yellow)); }
+        .cta-section h2 { font-size: 36px; font-weight: 800; margin-bottom: 24px; }
+        .cta-section p { font-size: 18px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.6; }
+
+        @media (max-width: 900px) {
+            .hero { flex-direction: column-reverse; text-align: center; padding: 40px 0; }
+            .hero-image { width: 280px; height: 280px; }
+            .hero h1 { font-size: 40px; }
+            .exp-grid { grid-template-columns: 1fr; gap: 40px; }
+            .experience-section, .cta-section, .hobby-section { padding: 40px 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="blob-1"></div>
+    <div class="blob-2"></div>
+    <div class="container">
+        <nav>
+            <div class="logo"><span class="logo-dots">⋮</span> Евгений Поздняк</div>
+            <a href="https://t.me/JohnPzE" class="btn">Забронировать Zoom</a>
+        </nav>
+        
+        <div class="hr-greeting">
+            <strong>Олеся, добрый день!</strong> Специально для нашей встречи я оцифровал свой опыт, чтобы наглядно показать, как мои навыки закрывают задачи Performance-дивизиона.
+        </div>
+
+        <section class="hero">
+            <div class="hero-text">
+                <div class="badge">Business Development / Middle B2B Sales</div>
+                <h1>Платформенное решение для роста продаж</h1>
+                <p>Senior-менеджер из JCenterS. Специализируюсь на экспертных B2B-продажах сложного digital, эффективной обработке входящего трафика и системном управлении чеками до 5 млн ₽.</p>
+                <a href="#cta" class="btn">Перейти к главному</a>
+            </div>
+            <img src="1.jpg" alt="Евгений Поздняк" class="hero-image">
+        </section>
+
+        <h2 class="section-title">Мэтч с задачами Kokoc Group</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-title">Обработка лидов <span class="dot"></span></div>
+                <p>Блестяще конвертирую входящий трафик через глубокий брифинг. Выявляю скрытые потребности бизнеса и формирую КП, которое бьет точно в цель.</p>
+            </div>
+            <div class="card">
+                <div class="card-title">Защита презентаций <span class="dot"></span></div>
+                <p>Опыт ведения сделок от 200к до 5 млн ₽. Уверенно презентую решения, обосновываю сметы перед топ-менеджментом и снимаю возражения через консалтинг.</p>
+            </div>
+            <div class="card">
+                <div class="card-title">Работа с Production <span class="dot"></span></div>
+                <p>Умею ставить задачи производству в рамках тендеров. Перевожу «боли» клиента в техническое ТЗ и контролирую пресейл на всех этапах.</p>
+            </div>
+            <div class="card">
+                <div class="card-title">Работа на ивентах <span class="dot"></span></div>
+                <p>Генерирую лиды через нетворкинг. Организовал профильный ивент (Neuro Camp) на 1500+ участников для сбора теплых B2B-контактов.</p>
+            </div>
+        </div>
+
+        <div class="experience-section">
+            <h2 class="section-title">Детализация моего опыта</h2>
+            <div class="exp-grid">
+                <div class="exp-item">
+                    <h3>Экспертные продажи (JCenterS)</h3>
+                    <p>Продажа сложных CG-проектов и AI-решений — это всегда консалтинг. Я продаю не "картинку", а решение бизнес-задачи. Этот подход идеально адаптируется под SEO, контекст и сложные маркетинговые стратегии.</p>
+                </div>
+                <div class="exp-item">
+                    <h3>Управление B2B-циклом</h3>
+                    <p>Средний цикл моих сделок — 1-2 месяца. Понимаю все этапы: от первого касания на входящем листе до юридических согласований и доведения до оплаты с последующим LTV около 20%.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="hobby-section">
+            <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 24px; display: flex; align-items: center; gap: 15px;">
+                Out of office <span style="font-size: 24px;">🛠️</span>
+            </h2>
+            <p style="color: var(--text-muted); font-size: 16px; line-height: 1.7; max-width: 900px;">
+                Вне работы я тоже создаю продукты. Увлекаюсь <strong>кожевенным ремеслом</strong> и <strong>3D-печатью</strong> (дома соберна мини-ферма из принтеров Bambu Lab). <br><br>
+                Для меня это не просто хобби, а способ развивать маниакальное внимание к деталям и понимание технической «внутрянки» сложных изделий. Это помогает мне на переговорах: я привык вникать в суть того, как всё устроено, прежде чем предлагать решение клиенту.
+            </p>
+        </div>
+
+        <div class="cta-section" id="cta">
+            <h2>Перейдем сразу к главному.</h2>
+            <p>Олеся, за последние недели я глубоко проанализировал рынок и собрал пул сильных офферов. Сейчас я нахожусь на этапе финального выбора компании, с которой готов расти долгосрочно.</p>
+            <p>Экосистема Kokoc Group мне максимально близка. Поэтому предлагаю пропустить рутину долгих согласований и оперативно синхронизироваться на коротком Zoom. Мой дедлайн по решению — среда.</p>
+            <a href="https://t.me/JohnPzE" class="btn">Назначить Zoom в Telegram</a>
+        </div>
+    </div>
+</body>
+</html>
