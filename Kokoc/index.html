@@ -10,10 +10,14 @@
             --bg-color: #F6F7F9;
             --text-main: #1D1D1F;
             --text-muted: #6E6E73;
-            --kokoc-red: #FF4D4D;
-            --kokoc-red-hover: #E63E3E;
-            --kokoc-green: #98F2AA;
+            --kokoc-red: #FF4242;
             --card-bg: #FFFFFF;
+            
+            /* Цвета для ховера карточек в стиле Kokoc */
+            --kokoc-hover-blue: #5B48FF;
+            --kokoc-hover-green: #8BF2A3;
+            --kokoc-hover-cyan: #4CE0D3;
+            --kokoc-hover-yellow: #FFEA6C;
         }
 
         * {
@@ -32,24 +36,24 @@
             position: relative;
         }
 
-        /* Мягкие фоновые градиенты (капли) как на сайте Kokoc */
+        /* Мягкие фоновые градиенты */
         .blob-1 {
             position: absolute;
             top: -100px;
             right: -100px;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(152, 242, 170, 0.4) 0%, rgba(152, 242, 170, 0) 70%);
+            background: radial-gradient(circle, rgba(139, 242, 163, 0.3) 0%, rgba(139, 242, 163, 0) 70%);
             z-index: -1;
         }
         
         .blob-2 {
             position: absolute;
-            top: 400px;
+            top: 500px;
             left: -200px;
             width: 800px;
             height: 800px;
-            background: radial-gradient(circle, rgba(124, 224, 211, 0.3) 0%, rgba(124, 224, 211, 0) 70%);
+            background: radial-gradient(circle, rgba(91, 72, 255, 0.15) 0%, rgba(91, 72, 255, 0) 70%);
             z-index: -1;
         }
 
@@ -59,12 +63,28 @@
             padding: 0 20px;
         }
 
+        /* Приветствие для HR */
+        .hr-greeting {
+            background: rgba(255, 66, 66, 0.08);
+            border-left: 4px solid var(--kokoc-red);
+            padding: 16px 24px;
+            border-radius: 0 16px 16px 0;
+            margin-top: 20px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #4A4A4A;
+        }
+        
+        .hr-greeting strong {
+            color: var(--text-main);
+        }
+
         /* Навигация */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 30px 0;
+            padding: 30px 0 10px;
         }
 
         .logo {
@@ -82,22 +102,26 @@
             line-height: 1;
         }
 
+        /* Сочные кнопки (вайбовые) */
         .btn {
-            background-color: var(--kokoc-red);
+            background: linear-gradient(135deg, #FF5555 0%, #E63535 100%);
             color: #FFFFFF;
-            padding: 14px 32px;
+            padding: 16px 36px;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 16px;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: inline-block;
+            box-shadow: 0 8px 24px rgba(255, 66, 66, 0.25);
+            border: none;
+            cursor: pointer;
         }
 
         .btn:hover {
-            background-color: var(--kokoc-red-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(255, 77, 77, 0.2);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 32px rgba(255, 66, 66, 0.4);
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF2222 100%);
         }
 
         /* Главный экран */
@@ -105,7 +129,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 80px 0 100px;
+            padding: 60px 0 100px;
             gap: 50px;
         }
 
@@ -125,7 +149,7 @@
         }
 
         .hero h1 {
-            font-size: 56px;
+            font-size: 52px;
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 24px;
@@ -133,7 +157,7 @@
         }
 
         .hero p {
-            font-size: 20px;
+            font-size: 18px;
             color: var(--text-muted);
             max-width: 600px;
             margin-bottom: 40px;
@@ -147,12 +171,17 @@
             border: 8px solid #FFFFFF;
             box-shadow: 0 30px 60px rgba(0,0,0,0.08);
             flex-shrink: 0;
+            transition: transform 0.5s ease;
+        }
+        
+        .hero-image:hover {
+            transform: scale(1.03) rotate(-2deg);
         }
 
-        /* Карточки "Дивизионы платформы" */
+        /* Карточки с динамическим ховером */
         .section-title {
             font-size: 32px;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 40px;
             text-align: center;
         }
@@ -169,50 +198,66 @@
             border-radius: 30px;
             padding: 40px 30px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.03);
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
             overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card.highlight {
-            background: var(--kokoc-green);
+            display: flex;
+            flex-direction: column;
         }
 
         .card-title {
             font-size: 22px;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: space-between;
+            transition: color 0.3s ease;
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             display: inline-block;
+            transition: transform 0.3s ease;
         }
-        .dot.blue { background-color: #4A6FFF; }
-        .dot.red { background-color: var(--kokoc-red); }
-        .dot.purple { background-color: #A855F7; }
 
         .card p {
-            font-size: 16px;
+            font-size: 15px;
             color: var(--text-muted);
             line-height: 1.6;
+            transition: color 0.3s ease;
         }
 
-        .card.highlight p {
-            color: var(--text-main);
-        }
+        /* Настройки ховеров для каждой карточки */
+        /* 1. Обработка входящих (Синий/Фиолетовый) */
+        .card:nth-child(1) .dot { background-color: var(--kokoc-hover-blue); }
+        .card:nth-child(1):hover { background-color: var(--kokoc-hover-blue); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(91, 72, 255, 0.2); }
+        .card:nth-child(1):hover .card-title, .card:nth-child(1):hover p { color: #FFFFFF; }
+        .card:nth-child(1):hover .dot { background-color: #FFFFFF; transform: scale(1.5); }
 
-        /* Блок "Возможности роста" */
-        .match-section {
+        /* 2. Защита презентаций (Зеленый) */
+        .card:nth-child(2) .dot { background-color: #2ED573; }
+        .card:nth-child(2):hover { background-color: var(--kokoc-hover-green); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(139, 242, 163, 0.3); }
+        .card:nth-child(2):hover .card-title, .card:nth-child(2):hover p { color: #1D1D1F; }
+        .card:nth-child(2):hover .dot { background-color: #1D1D1F; transform: scale(1.5); }
+
+        /* 3. Работа с Production (Бирюзовый) */
+        .card:nth-child(3) .dot { background-color: var(--kokoc-hover-cyan); }
+        .card:nth-child(3):hover { background-color: var(--kokoc-hover-cyan); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(76, 224, 211, 0.3); }
+        .card:nth-child(3):hover .card-title, .card:nth-child(3):hover p { color: #1D1D1F; }
+        .card:nth-child(3):hover .dot { background-color: #1D1D1F; transform: scale(1.5); }
+
+        /* 4. Нетворкинг и Ивенты (Желтый) */
+        .card:nth-child(4) .dot { background-color: #FFC312; }
+        .card:nth-child(4):hover { background-color: var(--kokoc-hover-yellow); transform: translateY(-8px); box-shadow: 0 20px 40px rgba(255, 234, 108, 0.3); }
+        .card:nth-child(4):hover .card-title, .card:nth-child(4):hover p { color: #1D1D1F; }
+        .card:nth-child(4):hover .dot { background-color: #1D1D1F; transform: scale(1.5); }
+
+
+        /* Блок детального опыта */
+        .experience-section {
             background: #FFFFFF;
             border-radius: 40px;
             padding: 80px;
@@ -220,21 +265,34 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.02);
         }
 
-        .match-grid {
+        .exp-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 50px;
         }
 
-        .match-item h3 {
-            font-size: 24px;
+        .exp-item h3 {
+            font-size: 22px;
             margin-bottom: 16px;
-            font-weight: 700;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .exp-item h3::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 4px;
+            background: var(--kokoc-red);
+            border-radius: 2px;
         }
 
-        .match-item p {
+        .exp-item p {
             color: var(--text-muted);
             font-size: 16px;
+            margin-bottom: 12px;
         }
 
         /* Финальный блок (CTA) */
@@ -242,10 +300,19 @@
             text-align: center;
             max-width: 800px;
             margin: 0 auto 100px;
-            padding: 60px;
+            padding: 70px 40px;
             background: #FFFFFF;
             border-radius: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.04);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 6px;
+            background: linear-gradient(90deg, var(--kokoc-hover-blue), var(--kokoc-hover-cyan), var(--kokoc-hover-green), var(--kokoc-hover-yellow));
         }
 
         .cta-section h2 {
@@ -266,9 +333,9 @@
             .hero-image { width: 280px; height: 280px; }
             .hero h1 { font-size: 40px; }
             .hero p { margin: 0 auto 30px; }
-            .match-grid { grid-template-columns: 1fr; gap: 40px; }
-            .match-section { padding: 40px 20px; }
-            .cta-section { padding: 40px 20px; }
+            .exp-grid { grid-template-columns: 1fr; gap: 40px; }
+            .experience-section, .cta-section { padding: 40px 24px; }
+            .hr-greeting { border-left: none; border-top: 4px solid var(--kokoc-red); border-radius: 0 0 16px 16px; text-align: left;}
         }
     </style>
 </head>
@@ -280,57 +347,60 @@
     <div class="container">
         <nav>
             <div class="logo"><span class="logo-dots">⋮</span> Евгений Поздняк</div>
-            <a href="https://t.me/JohnPzE" class="btn">Войти в диалог</a>
+            <a href="https://t.me/JohnPzE" class="btn">Забронировать Zoom</a>
         </nav>
+        
+        <div class="hr-greeting">
+            <strong>Олеся, добрый день!</strong> Специально для нашей встречи я оцифровал свой опыт, чтобы наглядно показать, как мои навыки закрывают задачи Performance-дивизиона.
+        </div>
 
         <section class="hero">
             <div class="hero-text">
-                <div class="badge">Middle B2B Sales Manager</div>
+                <div class="badge">Business Development / Middle B2B Sales</div>
                 <h1>Платформенное решение для роста продаж</h1>
-                <p>Объединяю экспертизу в продаже сложных IT-продуктов, системном управлении чеками и выстраивании доверительных отношений с ЛПР.</p>
+                <p>Senior-менеджер из JCenterS. Специализируюсь на экспертных B2B-продажах сложного digital, конверсии входящего трафика и системном управлении чеками до 5 млн ₽.</p>
                 <a href="#cta" class="btn">Перейти к главному</a>
             </div>
-            <!-- СЮДА ПОДТЯНЕТСЯ ТВОЕ ФОТО (файл 1.jpg) -->
             <img src="1.jpg" alt="Евгений Поздняк" class="hero-image">
         </section>
 
-        <h2 class="section-title">Ключевые возможности для платформы</h2>
+        <h2 class="section-title">Мэтч с задачами Kokoc Group</h2>
         <div class="grid">
             <div class="card">
-                <div class="card-title">Управление чеками <span class="dot red"></span></div>
-                <p>Опыт ведения и закрытия проектных сделок с бюджетами от 350 000 ₽ до 5 000 000 ₽. Способен обосновать стоимость перед топ-менеджментом.</p>
+                <div class="card-title">Обработка лидов <span class="dot"></span></div>
+                <p>Блестяще конвертирую входящий трафик. Провожу глубокий брифинг, выявляю скрытые потребности бизнеса и формирую индивидуальные КП.</p>
             </div>
             <div class="card">
-                <div class="card-title">Синергия с Production <span class="dot blue"></span></div>
-                <p>Умею переводить «боли» бизнеса в четкое ТЗ для технической команды. Контролирую пресейл, защищаю сметы и снимаю возражения.</p>
-            </div>
-            <div class="card highlight">
-                <div class="card-title">Комплексный подход</div>
-                <p>Системное ведение B2B-клиентов по воронке (от 7 касаний). Поиск ЛПР, холодный аутрич, квалификация и формирование индивидуальных КП.</p>
+                <div class="card-title">Защита презентаций <span class="dot"></span></div>
+                <p>Опыт ведения сделок от 200к до 5 млн ₽. Уверенно презентую решения, обосновываю сметы перед топ-менеджментом и снимаю возражения через консалтинг.</p>
             </div>
             <div class="card">
-                <div class="card-title">Проактивность <span class="dot purple"></span></div>
-                <p>Автономная лидогенерация. Запустил сетку на Avito (70+ заказов/мес) и организовал профильный онлайн-ивент на 1500 человек для сбора B2B-лидов.</p>
+                <div class="card-title">Работа с Production <span class="dot"></span></div>
+                <p>Умею ставить задачи производству в рамках тендера. Перевожу «боли» бизнеса в четкое ТЗ для технической команды и контролирую пресейл.</p>
+            </div>
+            <div class="card">
+                <div class="card-title">Работа на ивентах <span class="dot"></span></div>
+                <p>Умею генерить лиды через нетворкинг и знакомства. Организовал профильный ивент (Neuro Camp) на 1500+ участников для сбора теплых B2B-контактов.</p>
             </div>
         </div>
 
-        <div class="match-section">
-            <h2 class="section-title">Найдем оптимальные решения для Performance-дивизиона</h2>
-            <div class="match-grid">
-                <div class="match-item">
-                    <h3>Опыт продажи «неосязаемого»</h3>
-                    <p>Механика продажи 3D-графики, VR и сложных AI-интеграций идентична продаже SEO, контекста или CPA-сетей. В обоих случаях клиент покупает экспертизу, консалтинг и будущий результат. Я умею доносить эту ценность на языке бизнеса и метрик.</p>
+        <div class="experience-section">
+            <h2 class="section-title">Детализация моего опыта для Performance-задач</h2>
+            <div class="exp-grid">
+                <div class="exp-item">
+                    <h3>Опыт продажи «неосязаемого» (JCenterS)</h3>
+                    <p>Механика продажи сложных CG-проектов идентична продаже маркетинговых продуктов (SEO/CPA). В обоих случаях клиент покупает экспертизу, аналитику и будущий результат. Я умею доносить эту ценность на языке бизнес-метрик и выстраивать позицию партнера, а не просто "менеджера на телефоне".</p>
                 </div>
-                <div class="match-item">
-                    <h3>Работа с долгими циклами</h3>
-                    <p>Средний цикл моих сделок составляет 1-2 месяца. Я понимаю специфику многоэтапных согласований, умею «греть» клиента на дистанции, проходить юридические барьеры (NDA, договоры) и доводить сделку до оплат и актов.</p>
+                <div class="exp-item">
+                    <h3>Управление долгими B2B-циклами</h3>
+                    <p>Средний цикл моих крупных сделок составляет 1-2 месяца. Я понимаю специфику многоэтапных согласований, умею экологично «догревать» клиента на дистанции, проходить юридические барьеры и сопровождать сделку на всех этапах до получения оплат.</p>
                 </div>
             </div>
         </div>
 
         <div class="cta-section" id="cta">
             <h2>Перейдем сразу к главному.</h2>
-            <p>За последние недели я глубоко проанализировал рынок, провел ряд переговоров и собрал пул сильных офферов. Сейчас я нахожусь на этапе финального выбора компании, с которой готов расти долгосрочно.</p>
+            <p>Олеся, за последние недели я глубоко проанализировал рынок, провел ряд переговоров и собрал пул сильных офферов. Сейчас я нахожусь на этапе финального выбора компании, с которой готов расти долгосрочно.</p>
             <p>Экосистема Kokoc Group и ваш подход к перфомансу мне максимально близки. Поэтому предлагаю пропустить рутину долгих согласований, оперативно синхронизироваться на коротком Zoom и обсудить нашу синергию. Мой дедлайн по принятию решения — среда.</p>
             <a href="https://t.me/JohnPzE" class="btn">Назначить Zoom в Telegram</a>
         </div>
