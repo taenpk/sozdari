@@ -1,675 +1,550 @@
-import React, { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { CalendarDays, CheckCircle2, Clock3, Filter, MessageSquare, Pencil, Search, Shield, Sparkles, Swords, Wand2 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cute&Dead — Production Board</title>
+  <style>
+    :root {
+      --bg: #f3f5f8;
+      --card: #ffffff;
+      --line: #d9e0ea;
+      --text: #18202a;
+      --muted: #687586;
+      --dark: #0f172a;
+      --blue: #dbeafe;
+      --blue-text: #1d4ed8;
+      --green: #dcfce7;
+      --green-text: #15803d;
+      --amber: #fef3c7;
+      --amber-text: #b45309;
+      --red: #fee2e2;
+      --red-text: #b91c1c;
+      --shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+      --radius: 20px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+    }
+    .wrap { max-width: 1380px; margin: 0 auto; padding: 24px; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+    .hero-main {
+      background: linear-gradient(135deg, #0f172a 0%, #111827 55%, #1e293b 100%);
+      color: white;
+      padding: 28px;
+      border: 0;
+    }
+    .hero-badge {
+      display: inline-flex;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+    h1 { margin: 0 0 8px; font-size: 36px; line-height: 1.05; }
+    .sub { color: rgba(255,255,255,0.78); max-width: 720px; line-height: 1.45; }
+    .role-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .avatar {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-radius: 999px; font-size: 12px; font-weight: 600;
+      color: white;
+    }
+    .warrior { background: #1f2937; }
+    .archer { background: #065f46; }
+    .mage { background: #5b21b6; }
+    .upstream { background: #92400e; }
+    .hero-side {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    }
+    .stat-card { padding: 18px; }
+    .stat-label { color: #97a1b0; font-size: 12px; }
+    .stat-value { font-size: 28px; font-weight: 800; margin-top: 8px; }
 
-const people = {
-  "Андрей": {
-    role: "Воин",
-    icon: Swords,
-    tone: "bg-slate-900 text-white",
-    short: "A",
-  },
-  "Влад": {
-    role: "Лучник",
-    icon: Shield,
-    tone: "bg-emerald-900 text-white",
-    short: "V",
-  },
-  "Евгений": {
-    role: "Черный маг",
-    icon: Wand2,
-    tone: "bg-violet-900 text-white",
-    short: "E",
-  },
-  "Заказчик": {
-    role: "Апстрим",
-    icon: Sparkles,
-    tone: "bg-amber-900 text-white",
-    short: "Z",
-  },
-};
+    .controls { padding: 16px 18px; margin-bottom: 18px; }
+    .controls-row {
+      display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    }
+    .searchbox {
+      flex: 1 1 420px; display: flex; align-items: center; gap: 10px;
+      background: white; border: 1px solid var(--line); border-radius: 18px; padding: 12px 14px;
+    }
+    input, select, textarea {
+      font: inherit; color: var(--text);
+      border: 1px solid var(--line); border-radius: 14px; padding: 10px 12px;
+      background: white; width: 100%;
+    }
+    .searchbox input { border: 0; padding: 0; outline: none; }
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn {
+      appearance: none; border: 1px solid var(--line); background: white; color: var(--text);
+      padding: 10px 14px; border-radius: 14px; cursor: pointer; font-weight: 600;
+    }
+    .btn.primary { background: var(--dark); color: white; border-color: var(--dark); }
+    .tabs { display: flex; gap: 8px; background: #e9eef5; padding: 6px; border-radius: 18px; width: fit-content; margin-bottom: 18px; }
+    .tab-btn {
+      border: 0; background: transparent; padding: 10px 16px; border-radius: 14px; cursor: pointer; font-weight: 700; color: var(--muted);
+    }
+    .tab-btn.active { background: white; color: var(--text); box-shadow: 0 2px 10px rgba(15,23,42,.08); }
+    .hidden { display: none !important; }
 
-const initialTasks = [
-  {
-    id: "T-001",
-    title: "Часть 5 — допил и финализация логотипа",
-    owner: "Андрей",
-    block: "Часть 5",
-    start: "2026-03-24",
-    end: "2026-03-25",
-    status: "В работе",
-    risk: "Низкий",
-    dependsOn: "",
-    source: "Внутри",
-    notes: "Почти согласовано. Допиливаем текущую версию.",
-    comments: ["Проверить версию с ватермаркой."]
-  },
-  {
-    id: "T-002",
-    title: "Часть 1 — проверка и интеграция заставки DTG",
-    owner: "Андрей",
-    block: "Часть 1",
-    start: "2026-03-24",
-    end: "2026-03-24",
-    status: "Почти готово",
-    risk: "Низкий",
-    dependsOn: "",
-    source: "Заказчик",
-    notes: "Исходник уже есть в 4K.",
-    comments: []
-  },
-  {
-    id: "T-003",
-    title: "Разбор project files от заказчика",
-    owner: "Евгений",
-    block: "Подготовка",
-    start: "2026-03-24",
-    end: "2026-03-24",
-    status: "В работе",
-    risk: "Средний",
-    dependsOn: "",
-    source: "Заказчик",
-    notes: "Сегодня получили файлы, идет разбор структуры проекта.",
-    comments: ["Сверить наличие локаций и оружия."]
-  },
-  {
-    id: "T-004",
-    title: "Часть 2 — бит-лист и структура сцены",
-    owner: "Андрей",
-    block: "Часть 2",
-    start: "2026-03-25",
-    end: "2026-03-25",
-    status: "План",
-    risk: "Высокий",
-    dependsOn: "T-003",
-    source: "Внутри",
-    notes: "Town1, Snoopy, предупреждение из окна, побег, соплемет.",
-    comments: []
-  },
-  {
-    id: "T-005",
-    title: "Часть 2 — аниматик",
-    owner: "Андрей",
-    block: "Часть 2",
-    start: "2026-03-26",
-    end: "2026-03-26",
-    status: "План",
-    risk: "Высокий",
-    dependsOn: "T-004",
-    source: "Внутри",
-    notes: "Черновой аниматик на согласование.",
-    comments: []
-  },
-  {
-    id: "T-006",
-    title: "Часть 2 — согласование и пакет в апстрим",
-    owner: "Евгений",
-    block: "Часть 2",
-    start: "2026-03-27",
-    end: "2026-03-27",
-    status: "План",
-    risk: "Высокий",
-    dependsOn: "T-005",
-    source: "Смешанный",
-    notes: "Утверждение аниматика и передача списка анимаций / таймингов.",
-    comments: []
-  },
-  {
-    id: "T-007",
-    title: "Часть 3 — бит-лист и аниматик",
-    owner: "Влад",
-    block: "Часть 3",
-    start: "2026-03-25",
-    end: "2026-03-26",
-    status: "План",
-    risk: "Высокий",
-    dependsOn: "T-003",
-    source: "Внутри",
-    notes: "Спасение девушки и переход в танцпол.",
-    comments: []
-  },
-  {
-    id: "T-008",
-    title: "Часть 4 — шот-лист 8–10 шотов и разделение scope",
-    owner: "Евгений",
-    block: "Часть 4",
-    start: "2026-03-25",
-    end: "2026-03-25",
-    status: "План",
-    risk: "Высокий",
-    dependsOn: "T-003",
-    source: "Смешанный",
-    notes: "Отделить ваши шоты от тех, что дает заказчик.",
-    comments: []
-  },
-  {
-    id: "T-009",
-    title: "Часть 4 — DJ Zombie",
-    owner: "Андрей",
-    block: "Часть 4",
-    start: "2026-03-26",
-    end: "2026-03-29",
-    status: "План",
-    risk: "Средний",
-    dependsOn: "T-008",
-    source: "Внутри",
-    notes: "Один из ваших шотов в блоке.",
-    comments: []
-  },
-  {
-    id: "T-010",
-    title: "Часть 4 — алкогольные шоты",
-    owner: "Влад",
-    block: "Часть 4",
-    start: "2026-03-26",
-    end: "2026-03-29",
-    status: "План",
-    risk: "Средний",
-    dependsOn: "T-008",
-    source: "Внутри",
-    notes: "Имитация мини-игры.",
-    comments: []
-  },
-  {
-    id: "T-011",
-    title: "Часть 4 — прием клиентских шотов",
-    owner: "Евгений",
-    block: "Часть 4",
-    start: "2026-03-28",
-    end: "2026-04-03",
-    status: "План",
-    risk: "Высокий",
-    dependsOn: "T-008",
-    source: "Заказчик",
-    notes: "Турель, дробовик, сковорода, водяной пистолет, ракетница, ключ и другие.",
-    comments: ["Критично не затянуть передачу шотов."]
-  },
-  {
-    id: "T-012",
-    title: "Часть 6 — выбор решения и реализация",
-    owner: "Влад",
-    block: "Часть 6",
-    start: "2026-03-28",
-    end: "2026-04-01",
-    status: "План",
-    risk: "Средний",
-    dependsOn: "T-003",
-    source: "Внутри",
-    notes: "Нужно быстро зафиксировать вариант финальной мини-сцены.",
-    comments: []
-  },
-  {
-    id: "T-013",
-    title: "Общий монтаж v1",
-    owner: "Андрей",
-    block: "Финал",
-    start: "2026-04-05",
-    end: "2026-04-05",
-    status: "План",
-    risk: "Средний",
-    dependsOn: "T-002, T-006, T-007, T-011, T-012",
-    source: "Внутри",
-    notes: "Первая полная сборка ролика.",
-    comments: []
-  },
-  {
-    id: "T-014",
-    title: "Финальный монтаж lock",
-    owner: "Андрей",
-    block: "Финал",
-    start: "2026-04-07",
-    end: "2026-04-07",
-    status: "План",
-    risk: "Средний",
-    dependsOn: "T-013",
-    source: "Внутри",
-    notes: "После правок фиксируется структура ролика.",
-    comments: []
-  },
-  {
-    id: "T-015",
-    title: "Финальный цветокор",
-    owner: "Влад",
-    block: "Финал",
-    start: "2026-04-07",
-    end: "2026-04-08",
-    status: "План",
-    risk: "Низкий",
-    dependsOn: "T-014",
-    source: "Внутри",
-    notes: "После lock версии.",
-    comments: []
-  },
-  {
-    id: "T-016",
-    title: "Финальный композ-пасс и экспорт",
-    owner: "Андрей",
-    block: "Финал",
-    start: "2026-04-07",
-    end: "2026-04-10",
-    status: "План",
-    risk: "Средний",
-    dependsOn: "T-014",
-    source: "Внутри",
-    notes: "Финальный мастер и mp4 экспорт.",
-    comments: []
-  },
-];
+    .grid-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .task-card { padding: 18px; }
+    .task-top { display: flex; gap: 10px; justify-content: space-between; align-items: flex-start; }
+    .task-id { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+    .task-title { font-size: 18px; font-weight: 800; line-height: 1.2; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px; padding: 7px 10px; border-radius: 999px; border: 1px solid var(--line); font-size: 12px; font-weight: 700;
+    }
+    .status-plan { background: #f1f5f9; color: #475569; }
+    .status-work { background: var(--blue); color: var(--blue-text); }
+    .status-near { background: var(--green); color: var(--green-text); }
+    .status-done { background: #bbf7d0; color: #166534; }
+    .status-block { background: var(--red); color: var(--red-text); }
+    .risk-low { background: #ecfdf5; color: #047857; }
+    .risk-medium { background: #fffbeb; color: #b45309; }
+    .risk-high { background: #fef2f2; color: #b91c1c; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+    .notes { color: #4b5563; line-height: 1.45; min-height: 44px; }
+    .task-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 14px; gap: 8px; }
+    .tiny { font-size: 12px; color: var(--muted); }
 
-const statusColor = {
-  "План": "bg-slate-100 text-slate-700 border-slate-200",
-  "В работе": "bg-blue-100 text-blue-700 border-blue-200",
-  "Почти готово": "bg-emerald-100 text-emerald-700 border-emerald-200",
-  "Готово": "bg-green-100 text-green-700 border-green-200",
-  "Блокер": "bg-red-100 text-red-700 border-red-200",
-};
+    .timeline-panel { padding: 0; overflow: auto; }
+    .timeline-grid {
+      min-width: 1220px;
+      display: grid;
+      grid-template-columns: 180px repeat(22, minmax(44px, 1fr));
+    }
+    .tl-head, .tl-cell, .tl-side { padding: 10px; border-bottom: 1px solid var(--line); }
+    .tl-head { background: #f8fafc; font-size: 12px; color: var(--muted); text-align: center; }
+    .tl-side { position: sticky; left: 0; background: white; z-index: 2; border-right: 1px solid var(--line); }
+    .tl-row {
+      position: relative; grid-column: 2 / span 22; min-height: 108px; border-bottom: 1px solid var(--line);
+      background-image: linear-gradient(to right, rgba(217,224,234,.8) 1px, transparent 1px);
+      background-size: calc(100% / 22) 100%;
+    }
+    .tl-bar {
+      position: absolute; height: 56px; top: 18px; border-radius: 16px; border: 1px solid var(--line); padding: 8px 10px; overflow: hidden;
+      box-shadow: 0 4px 14px rgba(15,23,42,.06);
+    }
+    .tl-bar-title { font-size: 12px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .tl-bar-sub { font-size: 11px; color: #475569; margin-top: 4px; }
 
-const riskColor = {
-  "Низкий": "bg-emerald-50 text-emerald-700",
-  "Средний": "bg-amber-50 text-amber-700",
-  "Высокий": "bg-red-50 text-red-700",
-};
+    .calendar-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .cal-card { padding: 16px; }
 
-const owners = ["Все", "Андрей", "Влад", "Евгений", "Заказчик"];
-const statuses = ["Все", "План", "В работе", "Почти готово", "Готово", "Блокер"];
+    .bottom { display: grid; grid-template-columns: 1fr 320px; gap: 18px; margin-top: 18px; }
+    .section-title { font-size: 22px; font-weight: 800; padding: 22px 22px 0; }
+    .section-body { padding: 18px 22px 22px; }
+    .critical-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .critical-item { border: 1px solid #fecaca; background: #fef2f2; color: #991b1b; border-radius: 18px; padding: 14px; line-height: 1.35; }
+    .status-stack { display: flex; flex-direction: column; gap: 10px; }
+    .status-box { border-radius: 16px; padding: 14px; }
+    .status-box.gray { background: #f8fafc; }
+    .status-box.red { background: #fef2f2; color: #991b1b; }
+    .status-box.amber { background: #fffbeb; color: #92400e; }
 
-function daysBetween(start, end) {
-  const s = new Date(start);
-  const e = new Date(end);
-  return Math.round((e - s) / 86400000) + 1;
-}
+    .modal-wrap {
+      position: fixed; inset: 0; background: rgba(15,23,42,.48); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 100;
+    }
+    .modal-wrap.open { display: flex; }
+    .modal {
+      width: min(760px, 100%); background: white; border-radius: 24px; box-shadow: 0 24px 60px rgba(15,23,42,.28); overflow: hidden;
+    }
+    .modal-head { padding: 20px 22px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    .modal-body { padding: 20px 22px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .modal-body .full { grid-column: 1 / -1; }
+    .label { font-size: 13px; font-weight: 700; margin-bottom: 6px; display: block; }
+    .modal-actions { padding: 0 22px 22px; display: flex; justify-content: flex-end; gap: 10px; }
 
-function buildDateRange(start, end) {
-  const arr = [];
-  const current = new Date(start);
-  const last = new Date(end);
-  while (current <= last) {
-    arr.push(new Date(current));
-    current.setDate(current.getDate() + 1);
-  }
-  return arr;
-}
+    @media (max-width: 1100px) {
+      .hero, .bottom { grid-template-columns: 1fr; }
+      .grid-cards, .calendar-grid, .critical-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 760px) {
+      .wrap { padding: 14px; }
+      h1 { font-size: 28px; }
+      .hero-side, .grid-cards, .calendar-grid, .critical-grid { grid-template-columns: 1fr; }
+      .modal-body { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="panel hero-main">
+        <div class="hero-badge">Cute&Dead · Production Board</div>
+        <h1>Роадмап, календарь и редактор задач</h1>
+        <div class="sub">Строгая производственная структура с редактированием, календарной сеткой, комментариями и ролями команды. Для показа, созвона и быстрой правки плана без сборки и зависимостей.</div>
+        <div class="role-row">
+          <div class="avatar warrior">⚔️ Андрей · Воин</div>
+          <div class="avatar archer">🏹 Влад · Лучник</div>
+          <div class="avatar mage">🪄 Евгений · Черный маг</div>
+          <div class="avatar upstream">✨ Заказчик · Апстрим</div>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="panel stat-card"><div class="stat-label">Старт проекта</div><div class="stat-value">20.03.2026</div></div>
+        <div class="panel stat-card"><div class="stat-label">Production start</div><div class="stat-value">25.03.2026</div></div>
+        <div class="panel stat-card"><div class="stat-label">Текущая точка</div><div class="stat-value">24.03.2026</div></div>
+        <div class="panel stat-card"><div class="stat-label">Формат</div><div class="stat-value">2K · 60 fps</div></div>
+      </div>
+    </section>
 
-function formatShortDate(dateStr) {
-  const d = new Date(dateStr);
-  return d.toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit" });
-}
+    <section class="panel controls">
+      <div class="controls-row">
+        <div class="searchbox">
+          <span>🔎</span>
+          <input id="searchInput" type="text" placeholder="Поиск по задаче, блоку, заметкам, ID" />
+        </div>
+        <div class="filters">
+          <select id="ownerFilter"></select>
+          <select id="statusFilter"></select>
+          <button class="btn" id="resetFilters">Сбросить</button>
+        </div>
+      </div>
+    </section>
 
-function AvatarBadge({ name }) {
-  const person = people[name];
-  const Icon = person?.icon || Sparkles;
-  return (
-    <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${person?.tone || "bg-slate-800 text-white"}`}>
-      <Icon className="h-3.5 w-3.5" />
-      <span>{name}</span>
-      <span className="opacity-70">· {person?.role}</span>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="cards">Карточки</button>
+      <button class="tab-btn" data-tab="timeline">Таймлайн</button>
+      <button class="tab-btn" data-tab="calendar">Календарь</button>
     </div>
-  );
-}
 
-function TaskDialog({ task, onSave }) {
-  const [draft, setDraft] = useState(task);
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="rounded-xl"> <Pencil className="mr-2 h-4 w-4" /> Редактировать</Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-2xl rounded-2xl">
-        <DialogHeader>
-          <DialogTitle>Редактирование задачи</DialogTitle>
-        </DialogHeader>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div className="space-y-2 md:col-span-2">
-            <label className="text-sm font-medium">Название</label>
-            <Input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Ответственный</label>
-            <Select value={draft.owner} onValueChange={(value) => setDraft({ ...draft, owner: value })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {Object.keys(people).map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Статус</label>
-            <Select value={draft.status} onValueChange={(value) => setDraft({ ...draft, status: value })}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {statuses.slice(1).map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Старт</label>
-            <Input type="date" value={draft.start} onChange={(e) => setDraft({ ...draft, start: e.target.value })} />
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Финиш</label>
-            <Input type="date" value={draft.end} onChange={(e) => setDraft({ ...draft, end: e.target.value })} />
-          </div>
-          <div className="space-y-2 md:col-span-2">
-            <label className="text-sm font-medium">Заметки</label>
-            <Textarea value={draft.notes} onChange={(e) => setDraft({ ...draft, notes: e.target.value })} rows={4} />
-          </div>
-          <div className="md:col-span-2 flex justify-end">
-            <Button className="rounded-xl" onClick={() => onSave(draft)}>Сохранить</Button>
+    <section id="tab-cards" class="tab-content">
+      <div id="statsRow" class="hero-side" style="margin-bottom:18px"></div>
+      <div id="cardsView" class="grid-cards"></div>
+    </section>
+
+    <section id="tab-timeline" class="tab-content hidden">
+      <div class="panel timeline-panel">
+        <div id="timelineView" class="timeline-grid"></div>
+      </div>
+    </section>
+
+    <section id="tab-calendar" class="tab-content hidden">
+      <div id="calendarView" class="calendar-grid"></div>
+    </section>
+
+    <section class="bottom">
+      <div class="panel">
+        <div class="section-title">Критические точки</div>
+        <div class="section-body">
+          <div class="critical-grid">
+            <div class="critical-item">Часть 2: аниматик → апстрим → интеграция</div>
+            <div class="critical-item">Часть 3: аниматик → апстрим → интеграция</div>
+            <div class="critical-item">Часть 4: клиентские шоты → сборка блока</div>
+            <div class="critical-item">Lock → цвет → финальный композ → экспорт</div>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
-  );
-}
+      </div>
+      <div class="panel">
+        <div class="section-title">Статус на 24.03</div>
+        <div class="section-body status-stack">
+          <div class="status-box gray">Часть 1 — исходник готов, low risk</div>
+          <div class="status-box gray">Часть 5 — почти согласована, идет допил</div>
+          <div class="status-box red">Части 2 и 3 — стартуют с 25.03, high risk</div>
+          <div class="status-box red">Часть 4 зависит от клиентских шотов</div>
+          <div class="status-box amber">Часть 6 нужно быстро зафиксировать</div>
+        </div>
+      </div>
+    </section>
+  </div>
 
-function KanbanCard({ task, onSave }) {
-  return (
-    <motion.div layout initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>
-      <Card className="rounded-2xl border-slate-200 shadow-sm">
-        <CardContent className="p-4 space-y-3">
-          <div className="flex items-start justify-between gap-3">
+  <div class="modal-wrap" id="editModalWrap">
+    <div class="modal">
+      <div class="modal-head">
+        <strong>Редактирование задачи</strong>
+        <button class="btn" id="closeModalBtn">Закрыть</button>
+      </div>
+      <div class="modal-body">
+        <div class="full">
+          <label class="label">Название</label>
+          <input id="editTitle" />
+        </div>
+        <div>
+          <label class="label">Ответственный</label>
+          <select id="editOwner"></select>
+        </div>
+        <div>
+          <label class="label">Статус</label>
+          <select id="editStatus"></select>
+        </div>
+        <div>
+          <label class="label">Старт</label>
+          <input id="editStart" type="date" />
+        </div>
+        <div>
+          <label class="label">Финиш</label>
+          <input id="editEnd" type="date" />
+        </div>
+        <div class="full">
+          <label class="label">Заметки</label>
+          <textarea id="editNotes" rows="5"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn" id="cancelEditBtn">Отмена</button>
+        <button class="btn primary" id="saveEditBtn">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const initialTasks = [
+      { id: 'T-001', title: 'Часть 5 — допил и финализация логотипа', owner: 'Андрей', block: 'Часть 5', start: '2026-03-24', end: '2026-03-25', status: 'В работе', risk: 'Низкий', dependsOn: '', source: 'Внутри', notes: 'Почти согласовано. Допиливаем текущую версию.', comments: ['Проверить версию с ватермаркой.'] },
+      { id: 'T-002', title: 'Часть 1 — проверка и интеграция заставки DTG', owner: 'Андрей', block: 'Часть 1', start: '2026-03-24', end: '2026-03-24', status: 'Почти готово', risk: 'Низкий', dependsOn: '', source: 'Заказчик', notes: 'Исходник уже есть в 4K.', comments: [] },
+      { id: 'T-003', title: 'Разбор project files от заказчика', owner: 'Евгений', block: 'Подготовка', start: '2026-03-24', end: '2026-03-24', status: 'В работе', risk: 'Средний', dependsOn: '', source: 'Заказчик', notes: 'Сегодня получили файлы, идет разбор структуры проекта.', comments: ['Сверить наличие локаций и оружия.'] },
+      { id: 'T-004', title: 'Часть 2 — бит-лист и структура сцены', owner: 'Андрей', block: 'Часть 2', start: '2026-03-25', end: '2026-03-25', status: 'План', risk: 'Высокий', dependsOn: 'T-003', source: 'Внутри', notes: 'Town1, Snoopy, предупреждение из окна, побег, соплемет.', comments: [] },
+      { id: 'T-005', title: 'Часть 2 — аниматик', owner: 'Андрей', block: 'Часть 2', start: '2026-03-26', end: '2026-03-26', status: 'План', risk: 'Высокий', dependsOn: 'T-004', source: 'Внутри', notes: 'Черновой аниматик на согласование.', comments: [] },
+      { id: 'T-006', title: 'Часть 2 — согласование и пакет в апстрим', owner: 'Евгений', block: 'Часть 2', start: '2026-03-27', end: '2026-03-27', status: 'План', risk: 'Высокий', dependsOn: 'T-005', source: 'Смешанный', notes: 'Утверждение аниматика и передача списка анимаций / таймингов.', comments: [] },
+      { id: 'T-007', title: 'Часть 3 — бит-лист и аниматик', owner: 'Влад', block: 'Часть 3', start: '2026-03-25', end: '2026-03-26', status: 'План', risk: 'Высокий', dependsOn: 'T-003', source: 'Внутри', notes: 'Спасение девушки и переход в танцпол.', comments: [] },
+      { id: 'T-008', title: 'Часть 4 — шот-лист 8–10 шотов и разделение scope', owner: 'Евгений', block: 'Часть 4', start: '2026-03-25', end: '2026-03-25', status: 'План', risk: 'Высокий', dependsOn: 'T-003', source: 'Смешанный', notes: 'Отделить ваши шоты от тех, что дает заказчик.', comments: [] },
+      { id: 'T-009', title: 'Часть 4 — DJ Zombie', owner: 'Андрей', block: 'Часть 4', start: '2026-03-26', end: '2026-03-29', status: 'План', risk: 'Средний', dependsOn: 'T-008', source: 'Внутри', notes: 'Один из ваших шотов в блоке.', comments: [] },
+      { id: 'T-010', title: 'Часть 4 — алкогольные шоты', owner: 'Влад', block: 'Часть 4', start: '2026-03-26', end: '2026-03-29', status: 'План', risk: 'Средний', dependsOn: 'T-008', source: 'Внутри', notes: 'Имитация мини-игры.', comments: [] },
+      { id: 'T-011', title: 'Часть 4 — прием клиентских шотов', owner: 'Евгений', block: 'Часть 4', start: '2026-03-28', end: '2026-04-03', status: 'План', risk: 'Высокий', dependsOn: 'T-008', source: 'Заказчик', notes: 'Турель, дробовик, сковорода, водяной пистолет, ракетница, ключ и другие.', comments: ['Критично не затянуть передачу шотов.'] },
+      { id: 'T-012', title: 'Часть 6 — выбор решения и реализация', owner: 'Влад', block: 'Часть 6', start: '2026-03-28', end: '2026-04-01', status: 'План', risk: 'Средний', dependsOn: 'T-003', source: 'Внутри', notes: 'Нужно быстро зафиксировать вариант финальной мини-сцены.', comments: [] },
+      { id: 'T-013', title: 'Общий монтаж v1', owner: 'Андрей', block: 'Финал', start: '2026-04-05', end: '2026-04-05', status: 'План', risk: 'Средний', dependsOn: 'T-002, T-006, T-007, T-011, T-012', source: 'Внутри', notes: 'Первая полная сборка ролика.', comments: [] },
+      { id: 'T-014', title: 'Финальный монтаж lock', owner: 'Андрей', block: 'Финал', start: '2026-04-07', end: '2026-04-07', status: 'План', risk: 'Средний', dependsOn: 'T-013', source: 'Внутри', notes: 'После правок фиксируется структура ролика.', comments: [] },
+      { id: 'T-015', title: 'Финальный цветокор', owner: 'Влад', block: 'Финал', start: '2026-04-07', end: '2026-04-08', status: 'План', risk: 'Низкий', dependsOn: 'T-014', source: 'Внутри', notes: 'После lock версии.', comments: [] },
+      { id: 'T-016', title: 'Финальный композ-пасс и экспорт', owner: 'Андрей', block: 'Финал', start: '2026-04-07', end: '2026-04-10', status: 'План', risk: 'Средний', dependsOn: 'T-014', source: 'Внутри', notes: 'Финальный мастер и mp4 экспорт.', comments: [] }
+    ];
+
+    const owners = ['Все', 'Андрей', 'Влад', 'Евгений', 'Заказчик'];
+    const statuses = ['Все', 'План', 'В работе', 'Почти готово', 'Готово', 'Блокер'];
+    const roleClass = { 'Андрей': 'warrior', 'Влад': 'archer', 'Евгений': 'mage', 'Заказчик': 'upstream' };
+    const roleIcon = { 'Андрей': '⚔️', 'Влад': '🏹', 'Евгений': '🪄', 'Заказчик': '✨' };
+    const roleLabel = { 'Андрей': 'Воин', 'Влад': 'Лучник', 'Евгений': 'Черный маг', 'Заказчик': 'Апстрим' };
+    const statusClass = { 'План': 'status-plan', 'В работе': 'status-work', 'Почти готово': 'status-near', 'Готово': 'status-done', 'Блокер': 'status-block' };
+    const riskClass = { 'Низкий': 'risk-low', 'Средний': 'risk-medium', 'Высокий': 'risk-high' };
+    const timelineOwners = ['Андрей', 'Влад', 'Евгений', 'Заказчик'];
+    const timelineStart = '2026-03-20';
+    const timelineEnd = '2026-04-10';
+
+    let tasks = JSON.parse(localStorage.getItem('cute_dead_tasks_v1') || 'null') || initialTasks;
+    let activeTab = 'cards';
+    let editingTaskId = null;
+
+    const cardsView = document.getElementById('cardsView');
+    const calendarView = document.getElementById('calendarView');
+    const timelineView = document.getElementById('timelineView');
+    const statsRow = document.getElementById('statsRow');
+    const ownerFilterEl = document.getElementById('ownerFilter');
+    const statusFilterEl = document.getElementById('statusFilter');
+    const searchInputEl = document.getElementById('searchInput');
+    const modalWrap = document.getElementById('editModalWrap');
+
+    function fillSelect(select, values) {
+      select.innerHTML = values.map(v => `<option value="${v}">${v}</option>`).join('');
+    }
+
+    fillSelect(ownerFilterEl, owners);
+    fillSelect(statusFilterEl, statuses);
+    fillSelect(document.getElementById('editOwner'), owners.slice(1));
+    fillSelect(document.getElementById('editStatus'), statuses.slice(1));
+
+    function saveLocal() {
+      localStorage.setItem('cute_dead_tasks_v1', JSON.stringify(tasks));
+    }
+
+    function formatShortDate(dateStr) {
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+    }
+
+    function daysBetween(start, end) {
+      const s = new Date(start);
+      const e = new Date(end);
+      return Math.round((e - s) / 86400000) + 1;
+    }
+
+    function buildDateRange(start, end) {
+      const arr = [];
+      let current = new Date(start);
+      const last = new Date(end);
+      while (current <= last) {
+        arr.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+      }
+      return arr;
+    }
+
+    function avatarHTML(name) {
+      return `<span class="avatar ${roleClass[name]}">${roleIcon[name]} ${name} · ${roleLabel[name]}</span>`;
+    }
+
+    function getFilteredTasks() {
+      const owner = ownerFilterEl.value;
+      const status = statusFilterEl.value;
+      const q = searchInputEl.value.trim().toLowerCase();
+      return tasks.filter(task => {
+        const matchesOwner = owner === 'Все' || task.owner === owner;
+        const matchesStatus = status === 'Все' || task.status === status;
+        const matchesQuery = !q || [task.id, task.title, task.block, task.notes, task.owner].join(' ').toLowerCase().includes(q);
+        return matchesOwner && matchesStatus && matchesQuery;
+      });
+    }
+
+    function renderStats(list) {
+      const total = list.length;
+      const inWork = list.filter(t => t.status === 'В работе').length;
+      const near = list.filter(t => t.status === 'Почти готово').length;
+      const high = list.filter(t => t.risk === 'Высокий').length;
+      statsRow.innerHTML = [
+        ['Всего задач', total],
+        ['В работе', inWork],
+        ['Почти готово', near],
+        ['Высокий риск', high]
+      ].map(([label, val]) => `<div class="panel stat-card"><div class="stat-label">${label}</div><div class="stat-value">${val}</div></div>`).join('');
+    }
+
+    function renderCards(list) {
+      cardsView.innerHTML = list.map(task => `
+        <div class="panel task-card">
+          <div class="task-top">
             <div>
-              <div className="text-xs text-slate-500">{task.id} · {task.block}</div>
-              <div className="font-semibold leading-snug">{task.title}</div>
+              <div class="task-id">${task.id} · ${task.block}</div>
+              <div class="task-title">${task.title}</div>
             </div>
-            <Badge className={`border ${statusColor[task.status] || statusColor["План"]}`}>{task.status}</Badge>
+            <div class="badge ${statusClass[task.status]}">${task.status}</div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <AvatarBadge name={task.owner} />
-            <Badge variant="secondary" className={riskColor[task.risk]}>{task.risk} риск</Badge>
-            <Badge variant="outline">{formatShortDate(task.start)}–{formatShortDate(task.end)}</Badge>
-            <Badge variant="outline">{daysBetween(task.start, task.end)} дн.</Badge>
+          <div class="meta-row">
+            ${avatarHTML(task.owner)}
+            <span class="badge ${riskClass[task.risk]}">${task.risk} риск</span>
+            <span class="badge">${formatShortDate(task.start)}–${formatShortDate(task.end)}</span>
+            <span class="badge">${daysBetween(task.start, task.end)} дн.</span>
           </div>
-          <p className="text-sm text-slate-600">{task.notes}</p>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs text-slate-500">
-              <MessageSquare className="h-4 w-4" />
-              {task.comments.length} комм.
-            </div>
-            <TaskDialog task={task} onSave={onSave} />
+          <div class="notes">${task.notes}</div>
+          <div class="task-bottom">
+            <div class="tiny">💬 ${task.comments.length} комм.</div>
+            <button class="btn" onclick="openEdit('${task.id}')">Редактировать</button>
           </div>
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
-}
-
-function TimelineView({ tasks }) {
-  const range = buildDateRange("2026-03-20", "2026-04-10");
-  const grouped = ["Андрей", "Влад", "Евгений", "Заказчик"];
-
-  const offsetForTask = (task) => {
-    const start = new Date(task.start);
-    const timelineStart = new Date("2026-03-20");
-    return Math.round((start - timelineStart) / 86400000);
-  };
-
-  return (
-    <div className="space-y-4">
-      <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white">
-        <div className="min-w-[1200px]">
-          <div className="grid" style={{ gridTemplateColumns: `180px repeat(${range.length}, minmax(44px, 1fr))` }}>
-            <div className="sticky left-0 z-10 border-b bg-slate-50 p-3 font-semibold">Дорожка</div>
-            {range.map((d) => (
-              <div key={d.toISOString()} className="border-b border-l bg-slate-50 p-2 text-center text-xs text-slate-600">
-                {d.toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit" })}
-              </div>
-            ))}
-          </div>
-          {grouped.map((owner) => {
-            const rowTasks = tasks.filter((t) => t.owner === owner);
-            return (
-              <div key={owner} className="grid min-h-[100px] border-t" style={{ gridTemplateColumns: `180px repeat(${range.length}, minmax(44px, 1fr))` }}>
-                <div className="sticky left-0 z-10 border-r bg-white p-3">
-                  <AvatarBadge name={owner} />
-                </div>
-                <div className="relative col-span-full md:col-span-[22]" style={{ gridColumn: `2 / span ${range.length}` }}>
-                  <div className="absolute inset-0 grid" style={{ gridTemplateColumns: `repeat(${range.length}, minmax(44px, 1fr))` }}>
-                    {range.map((d) => <div key={d.toISOString()} className="border-l" />)}
-                  </div>
-                  <div className="relative h-full p-2 space-y-2">
-                    {rowTasks.map((task) => (
-                      <div
-                        key={task.id}
-                        className="rounded-xl border px-3 py-2 text-xs shadow-sm"
-                        style={{
-                          marginLeft: `calc(${offsetForTask(task)} * (100% / ${range.length}))`,
-                          width: `calc(${daysBetween(task.start, task.end)} * (100% / ${range.length}) - 8px)`,
-                          background: task.status === "Почти готово" ? "#dcfce7" : task.status === "В работе" ? "#dbeafe" : "#f8fafc",
-                        }}
-                      >
-                        <div className="font-semibold">{task.title}</div>
-                        <div className="text-slate-600">{task.block} · {formatShortDate(task.start)}–{formatShortDate(task.end)}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
         </div>
-      </div>
-    </div>
-  );
-}
+      `).join('');
+    }
 
-export default function CuteDeadProductionBoard() {
-  const [tasks, setTasks] = useState(initialTasks);
-  const [ownerFilter, setOwnerFilter] = useState("Все");
-  const [statusFilter, setStatusFilter] = useState("Все");
-  const [query, setQuery] = useState("");
+    function renderCalendar(list) {
+      const sorted = [...list].sort((a, b) => new Date(a.start) - new Date(b.start));
+      calendarView.innerHTML = sorted.map(task => `
+        <div class="panel cal-card">
+          <div class="task-top">
+            <div>
+              <div class="task-id">${task.block}</div>
+              <div class="task-title" style="font-size:17px">${task.title}</div>
+            </div>
+            <div class="badge ${statusClass[task.status]}">${task.status}</div>
+          </div>
+          <div class="meta-row">
+            ${avatarHTML(task.owner)}
+            <span class="badge">📅 ${formatShortDate(task.start)}–${formatShortDate(task.end)}</span>
+          </div>
+          <div class="notes">${task.notes}</div>
+        </div>
+      `).join('');
+    }
 
-  const filteredTasks = useMemo(() => {
-    return tasks.filter((task) => {
-      const matchesOwner = ownerFilter === "Все" || task.owner === ownerFilter;
-      const matchesStatus = statusFilter === "Все" || task.status === statusFilter;
-      const q = query.trim().toLowerCase();
-      const matchesQuery = !q || [task.title, task.block, task.notes, task.id, task.owner].join(" ").toLowerCase().includes(q);
-      return matchesOwner && matchesStatus && matchesQuery;
+    function renderTimeline(list) {
+      const range = buildDateRange(timelineStart, timelineEnd);
+      let html = `<div class="tl-side tl-head"><strong>Дорожка</strong></div>`;
+      html += range.map(d => `<div class="tl-head">${d.toLocaleDateString('ru-RU', { day:'2-digit', month:'2-digit' })}</div>`).join('');
+
+      timelineOwners.forEach(owner => {
+        html += `<div class="tl-side">${avatarHTML(owner)}</div>`;
+        const rowTasks = list.filter(t => t.owner === owner);
+        html += `<div class="tl-row">`;
+        rowTasks.forEach((task, index) => {
+          const offset = Math.round((new Date(task.start) - new Date(timelineStart)) / 86400000);
+          const length = daysBetween(task.start, task.end);
+          const widthPct = (length / range.length) * 100;
+          const leftPct = (offset / range.length) * 100;
+          const top = 14 + (index % 2) * 30;
+          const bg = task.status === 'Почти готово' ? '#dcfce7' : task.status === 'В работе' ? '#dbeafe' : '#f8fafc';
+          html += `<div class="tl-bar" style="left:${leftPct}%;width:calc(${widthPct}% - 8px);top:${top}px;background:${bg}">
+            <div class="tl-bar-title">${task.title}</div>
+            <div class="tl-bar-sub">${task.block} · ${formatShortDate(task.start)}–${formatShortDate(task.end)}</div>
+          </div>`;
+        });
+        html += `</div>`;
+      });
+      timelineView.innerHTML = html;
+    }
+
+    function renderAll() {
+      const filtered = getFilteredTasks();
+      renderStats(filtered);
+      renderCards(filtered);
+      renderCalendar(filtered);
+      renderTimeline(filtered);
+    }
+
+    function setTab(tab) {
+      activeTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tab));
+      document.querySelectorAll('.tab-content').forEach(section => section.classList.add('hidden'));
+      document.getElementById(`tab-${tab}`).classList.remove('hidden');
+    }
+
+    window.openEdit = function(id) {
+      editingTaskId = id;
+      const task = tasks.find(t => t.id === id);
+      if (!task) return;
+      document.getElementById('editTitle').value = task.title;
+      document.getElementById('editOwner').value = task.owner;
+      document.getElementById('editStatus').value = task.status;
+      document.getElementById('editStart').value = task.start;
+      document.getElementById('editEnd').value = task.end;
+      document.getElementById('editNotes').value = task.notes;
+      modalWrap.classList.add('open');
+    }
+
+    function closeModal() {
+      editingTaskId = null;
+      modalWrap.classList.remove('open');
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
+    ownerFilterEl.addEventListener('change', renderAll);
+    statusFilterEl.addEventListener('change', renderAll);
+    searchInputEl.addEventListener('input', renderAll);
+    document.getElementById('resetFilters').addEventListener('click', () => {
+      ownerFilterEl.value = 'Все';
+      statusFilterEl.value = 'Все';
+      searchInputEl.value = '';
+      renderAll();
     });
-  }, [tasks, ownerFilter, statusFilter, query]);
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('cancelEditBtn').addEventListener('click', closeModal);
+    modalWrap.addEventListener('click', (e) => { if (e.target === modalWrap) closeModal(); });
+    document.getElementById('saveEditBtn').addEventListener('click', () => {
+      const task = tasks.find(t => t.id === editingTaskId);
+      if (!task) return;
+      task.title = document.getElementById('editTitle').value;
+      task.owner = document.getElementById('editOwner').value;
+      task.status = document.getElementById('editStatus').value;
+      task.start = document.getElementById('editStart').value;
+      task.end = document.getElementById('editEnd').value;
+      task.notes = document.getElementById('editNotes').value;
+      saveLocal();
+      closeModal();
+      renderAll();
+    });
 
-  const saveTask = (updated) => {
-    setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
-  };
-
-  const stats = {
-    total: filteredTasks.length,
-    inProgress: filteredTasks.filter((t) => t.status === "В работе").length,
-    nearDone: filteredTasks.filter((t) => t.status === "Почти готово").length,
-    highRisk: filteredTasks.filter((t) => t.risk === "Высокий").length,
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 p-4 md:p-8">
-      <div className="mx-auto max-w-7xl space-y-6">
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="grid gap-4 md:grid-cols-[1.3fr_0.7fr]">
-          <Card className="rounded-[28px] border-0 bg-slate-950 text-white shadow-2xl">
-            <CardContent className="p-6 md:p-8">
-              <div className="flex flex-wrap items-start justify-between gap-4">
-                <div className="space-y-3">
-                  <Badge className="rounded-full bg-white/10 px-3 py-1 text-white">Cute&Dead · Production Board</Badge>
-                  <div>
-                    <h1 className="text-3xl font-bold tracking-tight md:text-4xl">Роадмап, календарь и редактор задач</h1>
-                    <p className="mt-2 max-w-2xl text-sm text-slate-300 md:text-base">
-                      Строгая производственная структура с редактированием, календарной сеткой, комментариями и ролями команды.
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <AvatarBadge name="Андрей" />
-                    <AvatarBadge name="Влад" />
-                    <AvatarBadge name="Евгений" />
-                    <AvatarBadge name="Заказчик" />
-                  </div>
-                </div>
-                <div className="grid w-full gap-3 sm:grid-cols-2 lg:w-[320px]">
-                  <div className="rounded-2xl bg-white/5 p-4">
-                    <div className="text-xs text-slate-400">Старт проекта</div>
-                    <div className="mt-1 text-lg font-semibold">20.03.2026</div>
-                  </div>
-                  <div className="rounded-2xl bg-white/5 p-4">
-                    <div className="text-xs text-slate-400">Production start</div>
-                    <div className="mt-1 text-lg font-semibold">25.03.2026</div>
-                  </div>
-                  <div className="rounded-2xl bg-white/5 p-4">
-                    <div className="text-xs text-slate-400">Текущая точка</div>
-                    <div className="mt-1 text-lg font-semibold">24.03.2026</div>
-                  </div>
-                  <div className="rounded-2xl bg-white/5 p-4">
-                    <div className="text-xs text-slate-400">Формат</div>
-                    <div className="mt-1 text-lg font-semibold">2K · 60 fps · MP4</div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
-            <Card className="rounded-[24px] shadow-sm">
-              <CardContent className="p-5">
-                <div className="text-xs text-slate-500">Всего задач</div>
-                <div className="mt-2 text-3xl font-bold">{stats.total}</div>
-              </CardContent>
-            </Card>
-            <Card className="rounded-[24px] shadow-sm">
-              <CardContent className="p-5">
-                <div className="text-xs text-slate-500">В работе</div>
-                <div className="mt-2 text-3xl font-bold">{stats.inProgress}</div>
-              </CardContent>
-            </Card>
-            <Card className="rounded-[24px] shadow-sm">
-              <CardContent className="p-5">
-                <div className="text-xs text-slate-500">Почти готово</div>
-                <div className="mt-2 text-3xl font-bold">{stats.nearDone}</div>
-              </CardContent>
-            </Card>
-            <Card className="rounded-[24px] shadow-sm">
-              <CardContent className="p-5">
-                <div className="text-xs text-slate-500">Высокий риск</div>
-                <div className="mt-2 text-3xl font-bold">{stats.highRisk}</div>
-              </CardContent>
-            </Card>
-          </div>
-        </motion.div>
-
-        <Card className="rounded-[28px] shadow-sm">
-          <CardContent className="p-4 md:p-5">
-            <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-              <div className="flex flex-1 items-center gap-2 rounded-2xl border px-3 py-2">
-                <Search className="h-4 w-4 text-slate-400" />
-                <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Поиск по задаче, блоку, заметкам, ID" className="border-0 p-0 shadow-none focus-visible:ring-0" />
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Select value={ownerFilter} onValueChange={setOwnerFilter}>
-                  <SelectTrigger className="w-[180px] rounded-xl"><SelectValue placeholder="Ответственный" /></SelectTrigger>
-                  <SelectContent>
-                    {owners.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="w-[180px] rounded-xl"><SelectValue placeholder="Статус" /></SelectTrigger>
-                  <SelectContent>
-                    {statuses.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-                  </SelectContent>
-                </Select>
-                <Button variant="outline" className="rounded-xl"><Filter className="mr-2 h-4 w-4" /> Фильтры</Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Tabs defaultValue="kanban" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-3 rounded-2xl lg:w-[420px]">
-            <TabsTrigger value="kanban">Карточки</TabsTrigger>
-            <TabsTrigger value="timeline">Таймлайн</TabsTrigger>
-            <TabsTrigger value="calendar">Календарь</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="kanban" className="space-y-4">
-            <div className="grid gap-4 xl:grid-cols-3">
-              {filteredTasks.map((task) => (
-                <KanbanCard key={task.id} task={task} onSave={saveTask} />
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="timeline">
-            <TimelineView tasks={filteredTasks} />
-          </TabsContent>
-
-          <TabsContent value="calendar">
-            <Card className="rounded-[28px] shadow-sm">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-xl"><CalendarDays className="h-5 w-5" /> Календарная сводка</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-                  {filteredTasks
-                    .slice()
-                    .sort((a, b) => new Date(a.start) - new Date(b.start))
-                    .map((task) => (
-                      <div key={task.id} className="rounded-2xl border border-slate-200 p-4">
-                        <div className="flex items-start justify-between gap-3">
-                          <div>
-                            <div className="text-xs text-slate-500">{task.block}</div>
-                            <div className="font-semibold">{task.title}</div>
-                          </div>
-                          <Badge className={`border ${statusColor[task.status] || statusColor["План"]}`}>{task.status}</Badge>
-                        </div>
-                        <div className="mt-3 flex flex-wrap gap-2">
-                          <AvatarBadge name={task.owner} />
-                          <Badge variant="outline"><Clock3 className="mr-1 h-3 w-3" /> {formatShortDate(task.start)}–{formatShortDate(task.end)}</Badge>
-                        </div>
-                        <p className="mt-3 text-sm text-slate-600">{task.notes}</p>
-                      </div>
-                    ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-
-        <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
-          <Card className="rounded-[28px] shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-xl">Критические точки</CardTitle>
-            </CardHeader>
-            <CardContent className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-              {[
-                "Часть 2: аниматик → апстрим → интеграция",
-                "Часть 3: аниматик → апстрим → интеграция",
-                "Часть 4: клиентские шоты → сборка блока",
-                "Lock → цвет → финальный композ → экспорт",
-              ].map((item) => (
-                <div key={item} className="rounded-2xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-                  {item}
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-
-          <Card className="rounded-[28px] shadow-sm">
-            <CardHeader>
-              <CardTitle className="text-xl">Статус на 24.03</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm text-slate-700">
-              <div className="rounded-2xl bg-slate-50 p-3">Часть 1 — исходник готов, low risk</div>
-              <div className="rounded-2xl bg-slate-50 p-3">Часть 5 — почти согласована, идет допил</div>
-              <div className="rounded-2xl bg-red-50 p-3 text-red-800">Части 2 и 3 — стартуют с 25.03, high risk</div>
-              <div className="rounded-2xl bg-red-50 p-3 text-red-800">Часть 4 зависит от клиентских шотов</div>
-              <div className="rounded-2xl bg-amber-50 p-3 text-amber-800">Часть 6 нужно быстро зафиксировать</div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
-  );
-}
+    renderAll();
+  </script>
+</body>
+</html>
