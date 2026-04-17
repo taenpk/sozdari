@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Евгений Поздняк | План входа в ООО «АйТи Бригада»</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        tech: {
+                            dark: '#0B0F19',
+                            card: '#111827',
+                            border: '#1F2937',
+                            accent: '#06B6D4', // Cyan
+                            accent2: '#3B82F6' // Blue
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0B0F19;
+            color: #E5E7EB;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1F2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #06B6D4;
+        }
+
+        /* Timeline Line */
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background: linear-gradient(to bottom, #06B6D4, #3B82F6);
+            z-index: 0;
+        }
+        
+        @media (min-width: 768px) {
+            .timeline-line::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        .glow-effect:hover {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+            border-color: rgba(6, 182, 212, 0.5);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #06B6D4, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans leading-relaxed">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-tech-dark/80 backdrop-blur-md border-b border-tech-border transition-all duration-300 py-4">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="text-xl font-bold font-mono tracking-tighter">
+                <span class="text-white">EP</span><span class="text-tech-accent">.sales</span>
+            </div>
+            <div class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#philosophy" class="hover:text-tech-accent transition-colors">Логика</a>
+                <a href="#timeline" class="hover:text-tech-accent transition-colors">Roadmap</a>
+                <a href="#results" class="hover:text-tech-accent transition-colors">Итоги</a>
+            </div>
+            <a href="#timeline" class="bg-gradient-to-r from-tech-accent to-tech-accent2 text-white px-5 py-2 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+                Смотреть план
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background Grid -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')]"></div>
+        
+        <div class="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-12">
+            <!-- Text Content -->
+            <div class="flex-1 text-center md:text-left" data-aos="fade-right" data-aos-duration="1000">
+                <div class="inline-block px-4 py-1.5 rounded-full border border-tech-border bg-tech-card/50 text-tech-accent text-sm font-mono mb-6 backdrop-blur-sm">
+                    <i class="fas fa-terminal mr-2"></i> init_onboarding_plan.sh
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                    Поздняк <br />
+                    <span class="gradient-text">Евгений</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-400 mb-8 font-light">
+                    План входа в должность в <strong class="text-white">ООО «АйТи Бригада»</strong>.<br>
+                    Первые 2 месяца работы.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                    <a href="#philosophy" class="px-8 py-4 rounded-lg bg-tech-card border border-tech-border hover:border-tech-accent hover:text-tech-accent transition-all duration-300 flex items-center justify-center gap-3 font-semibold">
+                        Главная логика <i class="fas fa-arrow-down"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Photo/Avatar -->
+            <div class="flex-1 flex justify-center md:justify-end" data-aos="fade-left" data-aos-duration="1000">
+                <div class="relative w-64 h-64 md:w-96 md:h-96 rounded-full p-2 bg-gradient-to-tr from-tech-accent to-tech-accent2 shadow-[0_0_40px_rgba(6,182,212,0.3)]">
+                    <div class="w-full h-full rounded-full overflow-hidden bg-tech-dark relative border-4 border-tech-dark">
+                        <!-- Изображение 1.jpg подтягивается из той же папки -->
+                        <img src="1.jpg" alt="Евгений Поздняк" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x600/111827/06B6D4?text=Фото\\n1.jpg'">
+                    </div>
+                    <!-- Tech decorations -->
+                    <div class="absolute -top-4 -right-4 w-12 h-12 bg-tech-card border border-tech-border rounded-lg flex items-center justify-center shadow-lg transform rotate-12 animate-pulse">
+                        <i class="fas fa-code-branch text-tech-accent text-xl"></i>
+                    </div>
+                    <div class="absolute -bottom-6 -left-4 w-16 h-16 bg-tech-card border border-tech-border rounded-full flex items-center justify-center shadow-lg">
+                        <i class="fas fa-chart-line text-tech-accent2 text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Logic Section -->
+    <section id="philosophy" class="py-24 bg-tech-dark relative border-t border-tech-border">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">Главная <span class="gradient-text">Логика</span></h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">Сначала порядок и понимание, потом масштабирование.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <div class="bg-tech-card border border-tech-border p-8 rounded-2xl glow-effect transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 rounded-full bg-tech-accent/10 flex items-center justify-center mb-6 border border-tech-accent/20">
+                        <i class="fas fa-search text-2xl text-tech-accent"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Месяц 1: Разбор и Порядок</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start gap-3"><i class="fas fa-check mt-1 text-tech-accent"></i> Разобраться в продуктах и внутренней логике</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check mt-1 text-tech-accent"></i> Качественно отработать старую базу</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check mt-1 text-tech-accent"></i> Понять, что из старой базы реально живое</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check mt-1 text-tech-accent"></i> Сформировать фундамент для нового потока</li>
+                    </ul>
+                </div>
+
+                <div class="bg-tech-card border border-tech-border p-8 rounded-2xl glow-effect transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 rounded-full bg-tech-accent2/10 flex items-center justify-center mb-6 border border-tech-accent2/20">
+                        <i class="fas fa-rocket text-2xl text-tech-accent2"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-white">Месяц 2: Масштабирование</h3>
+                    <ul class="space-y-3 text-gray-400">
+                        <li class="flex items-start gap-3"><i class="fas fa-check mt-1 text-tech-accent2"></i> Подключение нового поиска и новых каналов</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check mt-1 text-tech-accent2"></i> Усиление рабочих сегментов</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check mt-1 text-tech-accent2"></i> Интеграция маркетинга в продажи</li>
+                        <li class="flex items-start gap-3"><i class="fas fa-check mt-1 text-tech-accent2"></i> Фиксация воронки и сбор основы отдела продаж</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline / Roadmap Section -->
+    <section id="timeline" class="py-24 bg-[#0a0d14] relative">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">Понедельный <span class="gradient-text">Roadmap</span></h2>
+                <p class="text-gray-400">Детальный план действий на 8 недель</p>
+            </div>
+
+            <div class="relative timeline-line max-w-5xl mx-auto">
+                
+                <!-- Week 1 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-12 w-full">
+                    <div class="absolute left-[11px] md:left-1/2 w-5 h-5 rounded-full bg-tech-dark border-4 border-tech-accent transform -translate-x-1/2 z-10 group-hover:scale-125 group-hover:bg-tech-accent transition-all duration-300 shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
+                    
+                    <div class="w-full pl-12 md:pl-0 md:w-5/12" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="bg-tech-card border border-tech-border p-6 rounded-2xl glow-effect text-left">
+                            <div class="text-tech-accent font-mono text-sm mb-2">Неделя 1</div>
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2"><i class="fas fa-box-open text-gray-500"></i> Вход в продукты и контекст</h3>
+                            <p class="text-sm text-gray-400 mb-4 border-l-2 border-tech-border pl-3">Цель: Понять, что именно компания продаёт, кому, через какую боль и как это звучит на языке клиента.</p>
+                            <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                                <li>• Знакомство с командой (РОП, комдир, технари).</li>
+                                <li>• Разбор: IT-аутсорс, Серверы/VDS, 1С, AI для клиник.</li>
+                                <li>• Сбор живых историй, болей и возражений у технарей.</li>
+                                <li>• Знакомство с CRM и структурой старой базы.</li>
+                            </ul>
+                            <div class="bg-tech-dark/50 p-3 rounded border border-tech-border/50 text-xs text-tech-accent2">
+                                <strong>Результат:</strong> Понимание линейки, терминологии. Готовность осмысленно разбирать базу.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 2 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-12 w-full">
+                    <div class="absolute left-[11px] md:left-1/2 w-5 h-5 rounded-full bg-tech-dark border-4 border-tech-accent2 transform -translate-x-1/2 z-10 group-hover:scale-125 group-hover:bg-tech-accent2 transition-all duration-300"></div>
+                    
+                    <div class="w-full pl-12 md:pl-0 md:w-5/12" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="bg-tech-card border border-tech-border p-6 rounded-2xl glow-effect text-left">
+                            <div class="text-tech-accent2 font-mono text-sm mb-2">Неделя 2</div>
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2"><i class="fas fa-database text-gray-500"></i> Отработка старой базы</h3>
+                            <p class="text-sm text-gray-400 mb-4 border-l-2 border-tech-border pl-3">Цель: По-человечески разобрать то, что уже есть, без "впаривания".</p>
+                            <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                                <li>• Сегментация: текущие, бывшие, спящие, лиды.</li>
+                                <li>• Текущие: новые потребности, допродажа, прогрев.</li>
+                                <li>• Бывшие/спящие: сбор ОС, почему ушли, шанс на возврат.</li>
+                                <li>• Лояльные: мягкий запрос рекомендаций (сарафан).</li>
+                            </ul>
+                            <div class="bg-tech-dark/50 p-3 rounded border border-tech-border/50 text-xs text-tech-accent">
+                                <strong>Результат:</strong> Понятно, где живая база, где быстрый апсейл и откуда брать рекомендации.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 3 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-12 w-full">
+                    <div class="absolute left-[11px] md:left-1/2 w-5 h-5 rounded-full bg-tech-dark border-4 border-tech-accent transform -translate-x-1/2 z-10 group-hover:scale-125 group-hover:bg-tech-accent transition-all duration-300"></div>
+                    
+                    <div class="w-full pl-12 md:pl-0 md:w-5/12" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="bg-tech-card border border-tech-border p-6 rounded-2xl glow-effect text-left">
+                            <div class="text-tech-accent font-mono text-sm mb-2">Неделя 3</div>
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2"><i class="fas fa-layer-group text-gray-500"></i> Дожим и новый контур</h3>
+                            <p class="text-sm text-gray-400 mb-4 border-l-2 border-tech-border pl-3">Цель: Закончить первичную базу и подготовить новый поток.</p>
+                            <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                                <li>• Дожим интереса, встречи по старой базе.</li>
+                                <li>• Выбор продукта-локомотива (IT-аутсорс / Серверы).</li>
+                                <li>• Сбор новой базы: 2ГИС, HH, Rusprofile, парсинг.</li>
+                                <li>• Бионика: тёплый выход для проверки AI-продукта.</li>
+                            </ul>
+                            <div class="bg-tech-dark/50 p-3 rounded border border-tech-border/50 text-xs text-tech-accent2">
+                                <strong>Результат:</strong> База не съедает всё время. Готово первое направление на холодный выход.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 4 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-12 w-full">
+                    <div class="absolute left-[11px] md:left-1/2 w-5 h-5 rounded-full bg-tech-dark border-4 border-tech-accent2 transform -translate-x-1/2 z-10 group-hover:scale-125 group-hover:bg-tech-accent2 transition-all duration-300"></div>
+                    
+                    <div class="w-full pl-12 md:pl-0 md:w-5/12" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="bg-tech-card border border-tech-border p-6 rounded-2xl glow-effect text-left">
+                            <div class="text-tech-accent2 font-mono text-sm mb-2">Неделя 4</div>
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2"><i class="fas fa-paper-plane text-gray-500"></i> Запуск нового поиска</h3>
+                            <p class="text-sm text-gray-400 mb-4 border-l-2 border-tech-border pl-3">Цель: Начать новый поток по отработанным сегментам.</p>
+                            <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                                <li>• Запуск касаний (звонки, письма, follow-up).</li>
+                                <li>• Фокус на 1-2 сегментах, без распыления.</li>
+                                <li>• Формирование PDF-материалов с маркетологом.</li>
+                                <li>• Точечная работа с лучшими контактами старой базы.</li>
+                            </ul>
+                            <div class="bg-tech-dark/50 p-3 rounded border border-tech-border/50 text-xs text-tech-accent">
+                                <strong>Результат:</strong> Появляется входящий/исходящий контур. Видно, что открывает двери.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 5 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-12 w-full">
+                    <div class="absolute left-[11px] md:left-1/2 w-5 h-5 rounded-full bg-tech-dark border-4 border-tech-accent transform -translate-x-1/2 z-10 group-hover:scale-125 group-hover:bg-tech-accent transition-all duration-300"></div>
+                    
+                    <div class="w-full pl-12 md:pl-0 md:w-5/12" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="bg-tech-card border border-tech-border p-6 rounded-2xl glow-effect text-left">
+                            <div class="text-tech-accent font-mono text-sm mb-2">Неделя 5</div>
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2"><i class="fas fa-chart-bar text-gray-500"></i> Усиление рабочего направления</h3>
+                            <p class="text-sm text-gray-400 mb-4 border-l-2 border-tech-border pl-3">Цель: Не делать "всё подряд", усиливать то, что пошло.</p>
+                            <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                                <li>• Анализ отклика: какой продукт/сегмент заходит легче.</li>
+                                <li>• Масштабирование успешных связок.</li>
+                                <li>• Клиники: проверка AI-продукта на реальных ЛПР.</li>
+                            </ul>
+                            <div class="bg-tech-dark/50 p-3 rounded border border-tech-border/50 text-xs text-tech-accent2">
+                                <strong>Результат:</strong> Реальный фокус, меньше хаоса. Понятно, где быстрые деньги.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 6 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-12 w-full">
+                    <div class="absolute left-[11px] md:left-1/2 w-5 h-5 rounded-full bg-tech-dark border-4 border-tech-accent2 transform -translate-x-1/2 z-10 group-hover:scale-125 group-hover:bg-tech-accent2 transition-all duration-300"></div>
+                    
+                    <div class="w-full pl-12 md:pl-0 md:w-5/12" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="bg-tech-card border border-tech-border p-6 rounded-2xl glow-effect text-left">
+                            <div class="text-tech-accent2 font-mono text-sm mb-2">Неделя 6</div>
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2"><i class="fas fa-bullhorn text-gray-500"></i> Подключение маркетинга</h3>
+                            <p class="text-sm text-gray-400 mb-4 border-l-2 border-tech-border pl-3">Цель: Маркетинг помогает продажам (follow-up, прогрев, доверие).</p>
+                            <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                                <li>• Упаковка: кейсы, короткие КП, презентации.</li>
+                                <li>• Тест контента: боли бизнеса, мини-кейсы.</li>
+                                <li>• Точечные видео-ролики под открытие диалога.</li>
+                            </ul>
+                            <div class="bg-tech-dark/50 p-3 rounded border border-tech-border/50 text-xs text-tech-accent">
+                                <strong>Результат:</strong> Продажи усиливаются материалами. Формируется контур догрева.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 7 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-12 w-full">
+                    <div class="absolute left-[11px] md:left-1/2 w-5 h-5 rounded-full bg-tech-dark border-4 border-tech-accent transform -translate-x-1/2 z-10 group-hover:scale-125 group-hover:bg-tech-accent transition-all duration-300"></div>
+                    
+                    <div class="w-full pl-12 md:pl-0 md:w-5/12" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="bg-tech-card border border-tech-border p-6 rounded-2xl glow-effect text-left">
+                            <div class="text-tech-accent font-mono text-sm mb-2">Неделя 7</div>
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2"><i class="fas fa-filter text-gray-500"></i> Фиксация воронки</h3>
+                            <p class="text-sm text-gray-400 mb-4 border-l-2 border-tech-border pl-3">Цель: Собрать понятную рабочую логику из набора действий.</p>
+                            <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                                <li>• Фиксация: живые сегменты, рабочие офферы и каналы.</li>
+                                <li>• Определение длины цикла сделки.</li>
+                                <li>• Докрутка скриптов, писем, структуры первого касания.</li>
+                            </ul>
+                            <div class="bg-tech-dark/50 p-3 rounded border border-tech-border/50 text-xs text-tech-accent2">
+                                <strong>Результат:</strong> Базовый рабочий контур. Дальше — масштабирование, а не гадание.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Week 8 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group mb-12 w-full">
+                    <div class="absolute left-[11px] md:left-1/2 w-5 h-5 rounded-full bg-tech-dark border-4 border-tech-accent2 transform -translate-x-1/2 z-10 group-hover:scale-125 group-hover:bg-tech-accent2 transition-all duration-300 shadow-[0_0_10px_rgba(59,130,246,0.8)]"></div>
+                    
+                    <div class="w-full pl-12 md:pl-0 md:w-5/12" data-aos="fade-up" data-aos-anchor-placement="center-bottom">
+                        <div class="bg-tech-card border border-tech-border p-6 rounded-2xl glow-effect text-left border-l-4 border-l-tech-accent2 md:border-l md:border-r-4 md:border-r-tech-accent2">
+                            <div class="text-tech-accent2 font-mono text-sm mb-2">Неделя 8</div>
+                            <h3 class="text-xl font-bold text-white mb-3 flex items-center gap-2"><i class="fas fa-users-cog text-gray-500"></i> Основа отдела продаж</h3>
+                            <p class="text-sm text-gray-400 mb-4 border-l-2 border-tech-border pl-3">Цель: Показать сборку системы, а не только работу руками.</p>
+                            <ul class="text-sm text-gray-300 space-y-2 mb-4">
+                                <li>• Описание: сегменты, продукты, каналы, этапы.</li>
+                                <li>• Отчёт: что сработало, где быстрые деньги.</li>
+                                <li>• Предложение по найму (2-й человек) или отдельной вертикали.</li>
+                            </ul>
+                            <div class="bg-tech-dark/50 p-3 rounded border border-tech-border/50 text-xs text-tech-accent">
+                                <strong>Результат:</strong> Основа коммерческой системы. Внятный управленческий результат.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Summary / CTA Section -->
+    <section id="results" class="py-24 bg-tech-dark relative border-t border-tech-border overflow-hidden">
+        <!-- Glow background -->
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-tech-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <h2 class="text-3xl md:text-5xl font-bold mb-8" data-aos="fade-up">Готов <span class="gradient-text">действовать</span></h2>
+            
+            <div class="max-w-3xl mx-auto bg-tech-card border border-tech-border p-8 md:p-12 rounded-3xl" data-aos="zoom-in" data-aos-delay="100">
+                <div class="grid md:grid-cols-2 gap-8 text-left mb-8">
+                    <div>
+                        <h4 class="text-tech-accent font-mono mb-2">Месяц 1</h4>
+                        <ul class="text-gray-400 text-sm space-y-2">
+                            <li><i class="fas fa-angle-right text-tech-accent/50 mr-2"></i>Вход в продукты</li>
+                            <li><i class="fas fa-angle-right text-tech-accent/50 mr-2"></i>Разбор старой базы</li>
+                            <li><i class="fas fa-angle-right text-tech-accent/50 mr-2"></i>Качественная отработка</li>
+                            <li><i class="fas fa-angle-right text-tech-accent/50 mr-2"></i>Подготовка контура</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-tech-accent2 font-mono mb-2">Месяц 2</h4>
+                        <ul class="text-gray-400 text-sm space-y-2">
+                            <li><i class="fas fa-angle-right text-tech-accent2/50 mr-2"></i>Запуск нового поиска</li>
+                            <li><i class="fas fa-angle-right text-tech-accent2/50 mr-2"></i>Усиление сегментов</li>
+                            <li><i class="fas fa-angle-right text-tech-accent2/50 mr-2"></i>Подключение маркетинга</li>
+                            <li><i class="fas fa-angle-right text-tech-accent2/50 mr-2"></i>Фиксация системы</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <hr class="border-tech-border mb-8">
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="text-left">
+                        <div class="text-xl font-bold text-white">Евгений Поздняк</div>
+                        <div class="text-sm text-gray-400">ООО «АйТи Бригада»</div>
+                    </div>
+                    <button class="px-8 py-4 bg-white text-tech-dark font-bold rounded-lg hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.2)]" onclick="window.scrollTo(0,0)">
+                        Вернуться наверх <i class="fas fa-arrow-up ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#05080f] py-8 border-t border-tech-border/50 text-center text-sm text-gray-500">
+        <div class="container mx-auto px-6">
+            <p>План входа в должность. Разработано для ООО «АйТи Бригада».</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Инициализация анимаций при скролле
+        AOS.init({
+            once: true,
+            offset: 100,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+    </script>
+</body>
+</html>
