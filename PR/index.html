@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Евгений Поздняк | Предлагаемый формат старта</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        tech: {
+                            dark: '#0A0A0A',
+                            card: '#141414',
+                            border: '#2D2D2D',
+                            accent: '#F97316', // Orange
+                            accent2: '#EF4444' // Red
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0A0A0A;
+            color: #F3F4F6;
+            overflow-x: hidden;
+        }
+        
+        .glow-effect:hover {
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+            border-color: rgba(249, 115, 22, 0.5);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #F97316, #EF4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .premium-border {
+            position: relative;
+            background: linear-gradient(to right, #F97316, #EF4444);
+            padding: 2px;
+            border-radius: 1.5rem;
+        }
+        
+        .premium-inner {
+            background-color: #141414;
+            border-radius: calc(1.5rem - 2px);
+        }
+    </style>
+</head>
+<body class="antialiased font-sans leading-relaxed min-h-screen flex flex-col">
+
+    <!-- Navigation -->
+    <nav class="w-full z-50 bg-tech-dark/80 backdrop-blur-md border-b border-tech-border py-6">
+        <div class="container mx-auto px-6 flex justify-between items-center max-w-5xl">
+            <div class="text-2xl font-bold font-mono tracking-tighter">
+                <span class="text-white">EP</span><span class="text-tech-accent">.offer</span>
+            </div>
+            <!-- Опциональная кнопка возврата на основной сайт, если нужно -->
+            <a href="javascript:history.back()" class="text-gray-400 hover:text-white transition-colors text-sm font-medium flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Назад к плану
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow relative py-16 md:py-24">
+        <!-- Background Glows -->
+        <div class="absolute top-0 left-1/4 w-[400px] h-[400px] bg-tech-accent/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-tech-accent2/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10 max-w-4xl">
+            
+            <!-- Header -->
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-tech-border bg-tech-card/50 text-tech-accent text-sm font-mono mb-6">
+                    <i class="fas fa-handshake"></i> proposal.doc
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                    Предлагаемый <br />
+                    <span class="gradient-text">Формат Старта</span>
+                </h1>
+            </div>
+
+            <!-- Block 1: Philosophy -->
+            <div class="bg-tech-card border border-tech-border p-8 md:p-10 rounded-3xl mb-12 glow-effect transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-xl md:text-2xl font-light text-white mb-6 leading-relaxed">
+                    Я рассматриваю эту роль не как классическую позицию линейного менеджера по продажам, а как <strong class="text-tech-accent font-semibold">запуск коммерческой функции</strong> по нескольким направлениям компании.
+                </p>
+                <p class="text-gray-400 text-lg leading-relaxed mb-8">
+                    На старте здесь требуется не только работа с новыми продажами, но и быстрое погружение в продуктовую линейку, знакомство с текущими клиентами, полноценная отработка старой базы, запуск нового потока, тестирование каналов привлечения и участие в формировании рабочей системы продаж.
+                </p>
+                
+                <div class="flex items-start gap-4 p-6 bg-tech-dark rounded-2xl border border-tech-border/50">
+                    <div class="mt-1 w-10 h-10 rounded-full bg-tech-accent/10 flex items-center justify-center shrink-0 border border-tech-accent/20">
+                        <i class="fas fa-bolt text-tech-accent"></i>
+                    </div>
+                    <p class="text-gray-300 italic">
+                        Со своей стороны я уже показал серьёзный настрой на работу: заранее погрузился в направления компании, собрал стратегию входа в роль и подготовил отдельный лендинг с логикой запуска продаж.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Block 2: The Core Offer (Pricing) -->
+            <div class="mb-12" data-aos="zoom-in" data-aos-delay="200">
+                <p class="text-center text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
+                    С учётом такого объёма задач и уровня ответственности, комфортной стартовой точкой для меня является:
+                </p>
+
+                <div class="premium-border shadow-[0_0_30px_rgba(249,115,22,0.15)]">
+                    <div class="premium-inner p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+                        <div class="flex-1">
+                            <div class="text-tech-accent font-mono text-sm mb-2 uppercase tracking-widest">Фиксированная часть</div>
+                            <h3 class="text-4xl md:text-5xl font-bold text-white mb-2">120 000 ₽ <span class="text-xl text-gray-500 font-normal">/ мес</span></h3>
+                            <p class="text-gray-400 text-sm">на руки</p>
+                        </div>
+                        <div class="h-16 w-px bg-tech-border hidden md:block"></div>
+                        <div class="flex-1">
+                            <div class="text-tech-accent2 font-mono text-sm mb-2 uppercase tracking-widest">Период старта</div>
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-2">
+                                Первые 2–3 месяца
+                            </h3>
+                            <p class="text-gray-400 text-sm">Оптимальное время для проверки гипотез</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 3: Why Self-Employed -->
+            <div class="mb-16" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">Оптимальным вижу формат сотрудничества<br> по договору <span class="text-tech-accent border-b-2 border-tech-accent">с самозанятым</span> на этот период.</h2>
+                    <p class="text-gray-400">Такой вариант позволяет:</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-tech-card border border-tech-border p-6 rounded-2xl flex gap-4 hover:border-tech-accent transition-colors">
+                        <div class="mt-1 text-2xl text-tech-accent">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-300">Быстро начать работу без затянутого организационного этапа;</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-tech-card border border-tech-border p-6 rounded-2xl flex gap-4 hover:border-tech-accent2 transition-colors">
+                        <div class="mt-1 text-2xl text-tech-accent2">
+                            <i class="fas fa-file-signature"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-300">Сразу зафиксировать сумму, формат и зону ответственности на бумаге;</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-tech-card border border-tech-border p-6 rounded-2xl flex gap-4 hover:border-tech-accent transition-colors">
+                        <div class="mt-1 text-2xl text-tech-accent">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-300">Спокойно проверить совпадение по темпу, подходу и результатам в реальной работе;</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-tech-card border border-tech-border p-6 rounded-2xl flex gap-4 hover:border-tech-accent2 transition-colors">
+                        <div class="mt-1 text-2xl text-tech-accent2">
+                            <i class="fas fa-level-up-alt"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-300">При успешной динамике перейти в штатный формат сотрудничества.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Block 4: Conclusion -->
+            <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+                <p class="text-lg text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    Для компании это удобный и понятный способ запустить работу без лишней нагрузки на старте, а для меня — возможность входить в роль в прозрачных и заранее согласованных условиях.
+                </p>
+                
+                <div class="inline-block p-[1px] rounded-2xl bg-gradient-to-r from-tech-accent to-tech-accent2">
+                    <div class="bg-[#0A0A0A] px-8 py-6 rounded-[15px]">
+                        <p class="text-xl text-white font-medium">
+                            При успешной совместной работе и достижении первых результатов следующим логичным шагом вижу <strong class="text-tech-accent">переход в штатный формат</strong> сотрудничества.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#050505] py-8 border-t border-tech-border/50 text-center text-sm text-gray-500 mt-auto">
+        <div class="container mx-auto px-6">
+            <p>Евгений Поздняк | Коммерческое предложение</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+    </script>
+</body>
+</html>
