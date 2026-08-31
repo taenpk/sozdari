@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090d0b">
+  <meta name="description" content="XR Tactical — коммерческое предложение по разработке XR-платформы для Meta Quest 3.">
+  <title>XR Tactical — коммерческое предложение</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+  <style>
+    :root{
+      --bg:#090d0b;--bg2:#0d120f;--panel:#111713;--panel2:#151d17;--line:rgba(232,240,232,.10);
+      --text:#f1f4ed;--muted:#96a097;--muted2:#78837b;--acid:#c5dc76;--orange:#ed6a47;--blue:#61b8dd;
+      --red:#ef7055;--green:#8ebd7e;--shadow:0 26px 80px rgba(0,0,0,.28);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;background:var(--bg)}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);background:
+      radial-gradient(900px 600px at 84% -8%,rgba(237,106,71,.10),transparent 62%),
+      radial-gradient(900px 620px at -10% 24%,rgba(197,220,118,.075),transparent 63%),var(--bg);overflow-x:hidden}
+    a{color:inherit}.wrap{width:min(1180px,calc(100% - 34px));margin-inline:auto}
+    .nav{position:fixed;inset:0 0 auto 0;z-index:50;background:rgba(8,12,9,.72);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.06)}
+    .nav-in{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}.brand-mark{width:38px;height:38px;border:1px solid rgba(197,220,118,.22);border-radius:12px;display:grid;place-items:center;background:rgba(197,220,118,.05);color:var(--acid)}
+    .brand b{font-family:Manrope;font-size:15px;letter-spacing:-.02em}.brand small{display:block;color:var(--muted2);font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-top:2px}
+    .nav-links{display:flex;gap:24px;font-size:13px;font-weight:600;color:var(--muted)}.nav-links a{text-decoration:none}.nav-links a:hover{color:#fff}
+    .nav-cta{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);padding:9px 12px;border-radius:10px;text-decoration:none;font-size:12px;font-weight:700;background:rgba(255,255,255,.025)}
+
+    .hero{position:relative;min-height:760px;padding:136px 0 84px;display:flex;align-items:center;overflow:hidden}
+    #bgCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:.78;z-index:0}
+    .hero:after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(9,13,11,.98) 0%,rgba(9,13,11,.88) 42%,rgba(9,13,11,.36) 72%,rgba(9,13,11,.82) 100%),linear-gradient(180deg,rgba(9,13,11,.15),rgba(9,13,11,.18) 58%,var(--bg));pointer-events:none}
+    .hero-in{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1.08fr) minmax(390px,.92fr);gap:54px;align-items:center}
+    .eyebrow,.pill{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(197,220,118,.20);background:rgba(197,220,118,.05);color:#dce9b8;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
+    .eyebrow i{font-size:7px;color:var(--acid);filter:drop-shadow(0 0 8px rgba(197,220,118,.7))}
+    h1,h2,h3{font-family:Manrope,sans-serif}
+    h1{font-size:clamp(3.2rem,6vw,6.3rem);line-height:.95;letter-spacing:-.065em;margin:24px 0 22px;max-width:760px}
+    h1 span{background:linear-gradient(110deg,#fff 12%,#dde8d7 45%,var(--acid));color:transparent;background-clip:text;-webkit-background-clip:text}
+    .lead{max-width:760px;color:#a8b1a9;font-size:clamp(1rem,1.6vw,1.18rem);line-height:1.72}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}.btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;padding:12px 15px;border-radius:11px;font-size:13px;font-weight:800;border:1px solid var(--line);transition:.2s}.btn.primary{background:#eef2e9;color:#0e120f;border-color:#eef2e9}.btn:hover{transform:translateY(-2px)}
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:42px}.metric{padding:13px 14px;border:1px solid rgba(255,255,255,.07);background:rgba(8,12,9,.50);border-radius:12px}.metric b{display:block;font-family:Manrope;font-size:15px}.metric span{display:block;color:var(--muted2);font-size:9px;letter-spacing:.08em;text-transform:uppercase;margin-top:4px;line-height:1.35}
+
+    .session-card{position:relative;border:1px solid var(--line);border-radius:24px;background:linear-gradient(180deg,rgba(19,27,21,.82),rgba(10,15,12,.78));box-shadow:var(--shadow);overflow:hidden;padding:16px}
+    .session-top{display:flex;justify-content:space-between;align-items:center;padding:4px 4px 12px}.session-top b{font-size:12px}.session-top span{font-size:9px;color:var(--muted2);letter-spacing:.08em;text-transform:uppercase}
+    .session-svg{display:block;width:100%;height:auto;border-radius:16px;background:#0b100d;border:1px solid rgba(255,255,255,.055)}
+    .session-foot{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:9px}.sf{padding:9px;border-radius:10px;border:1px solid rgba(255,255,255,.06);font-size:9px;color:#9aa49c;background:rgba(255,255,255,.018)}.sf b{display:block;color:#dce2dc;font-size:10px;margin-bottom:3px}
+
+    section{position:relative}.section{padding:90px 0}.section.sm{padding:62px 0}.head{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:end;margin-bottom:34px}.label{font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:800;color:#8f9a90;margin-bottom:10px}.title{font-size:clamp(2rem,4.2vw,3.6rem);line-height:1.04;letter-spacing:-.05em;margin:0}.copy{max-width:740px;color:var(--muted);line-height:1.7;font-size:14px;margin-top:13px}.note-pill{align-self:end}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card{padding:22px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(180deg,rgba(21,29,23,.82),rgba(13,18,15,.86));box-shadow:0 16px 42px rgba(0,0,0,.12)}.icon{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;border:1px solid rgba(197,220,118,.14);background:rgba(197,220,118,.045);color:var(--acid);margin-bottom:18px}.card h3{font-size:16px;margin:0 0 8px;letter-spacing:-.02em}.card p{font-size:13px;line-height:1.62;color:#929c93;margin:0}
+
+    .process{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.step{padding:20px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.017)}.step-no{font-family:Manrope;font-size:28px;color:#38463c;letter-spacing:-.05em}.step h3{font-size:14px;margin:14px 0 7px}.step p{font-size:12px;line-height:1.55;color:#8d978f;margin:0}
+
+    .validation{border:1px solid var(--line);border-radius:24px;padding:30px;background:linear-gradient(180deg,rgba(21,29,23,.76),rgba(11,16,13,.85));box-shadow:var(--shadow)}
+    .risk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.risk{padding:18px;border:1px solid rgba(237,106,71,.15);border-radius:14px;background:rgba(237,106,71,.025)}.risk-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.risk h3{font-size:13px;line-height:1.35;margin:0}.risk p{font-size:11px;line-height:1.55;color:#8f9991;margin:8px 0 0}.tag{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 7px;font-size:8px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;border:1px solid rgba(255,255,255,.08);color:#aab4ac}.tag.amber{color:#f2b09c;border-color:rgba(237,106,71,.22);background:rgba(237,106,71,.04)}.tag.green{color:#d5e6a5;border-color:rgba(197,220,118,.20);background:rgba(197,220,118,.04)}
+    .tech-note{margin-top:12px;padding:14px 16px;border-radius:13px;border:1px solid rgba(97,184,221,.15);background:rgba(97,184,221,.03);display:flex;gap:12px;color:#9aabb0;font-size:11px;line-height:1.55}.tech-note i{color:var(--blue);margin-top:2px}
+
+    .roadmap{display:grid;gap:16px}.phase{border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,rgba(20,28,22,.82),rgba(11,16,13,.88));overflow:hidden}.phase-head{display:grid;grid-template-columns:90px 1fr auto;gap:18px;align-items:center;padding:22px 24px;border-bottom:1px solid rgba(255,255,255,.06)}.phase-no{font-family:Manrope;font-size:38px;color:#405045;letter-spacing:-.06em}.phase-head h3{font-size:19px;margin:0 0 5px}.phase-head p{font-size:12px;color:#8d978f;margin:0;line-height:1.5}.price{text-align:right}.price b{display:block;font-family:Manrope;font-size:20px;letter-spacing:-.04em}.price span{display:block;color:#838d85;font-size:10px;margin-top:4px}
+    .phase-body{padding:20px 24px}.deliverables{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.deliver{padding:14px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(255,255,255,.016)}.deliver b{display:block;font-size:11px}.deliver span{display:block;font-size:10px;line-height:1.45;color:#818c83;margin-top:5px}.gate{margin-top:10px;padding:12px 14px;border-left:2px solid var(--acid);background:rgba(197,220,118,.025);font-size:11px;color:#98a394;line-height:1.55}.gate b{color:#d8e3d6}
+
+    .subphase-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.subphase{padding:18px;border:1px solid rgba(255,255,255,.065);border-radius:14px;background:rgba(255,255,255,.018)}.subtop{display:flex;justify-content:space-between;gap:12px}.subphase h4{font-family:Manrope;font-size:14px;margin:0}.subphase .sp-price{font-family:Manrope;font-weight:800;font-size:13px;white-space:nowrap}.subphase p{font-size:11px;line-height:1.55;color:#8b958d;margin:8px 0 11px}.mini-list{display:grid;gap:5px}.mini-list span{font-size:10px;color:#a4ada6;position:relative;padding-left:12px}.mini-list span:before{content:"";position:absolute;left:0;top:.55em;width:4px;height:4px;border-radius:50%;background:#69776c}
+    .phase.mvp{box-shadow:0 22px 70px rgba(0,0,0,.18);border-color:rgba(97,184,221,.15)}.phase.mvp .phase-head{background:linear-gradient(90deg,rgba(97,184,221,.04),transparent)}
+    .phase.scale .phase-head{background:linear-gradient(90deg,rgba(237,106,71,.035),transparent)}
+
+    .budget-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}.budget-box{padding:18px;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.016)}.budget-box span{font-size:9px;text-transform:uppercase;letter-spacing:.09em;color:#828c84}.budget-box b{display:block;font-family:Manrope;font-size:22px;margin-top:6px;letter-spacing:-.045em}.budget-box small{display:block;color:#7f8981;font-size:9px;margin-top:5px}
+
+    .scope-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}.scope-card{padding:22px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.017)}.scope-card h3{font-size:16px;margin:0 0 14px}.scope-list{display:grid;gap:9px}.scope-item{display:flex;gap:10px;font-size:11px;line-height:1.5;color:#98a199}.scope-item i{width:18px;text-align:center;margin-top:2px;color:var(--acid)}.scope-item.out i{color:#e78c72}
+    .candidate{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}.chip{padding:7px 9px;border-radius:9px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.018);font-size:10px;color:#a9b1aa}
+
+    .team-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.role{padding:14px 10px;border:1px solid rgba(255,255,255,.06);border-radius:12px;background:rgba(255,255,255,.014);text-align:center}.role i{display:block;color:#819083;font-size:15px;margin-bottom:8px}.role b{display:block;font-size:9px;line-height:1.35}.role span{display:block;color:#768078;font-size:8px;margin-top:4px;line-height:1.3}
+
+    .cta{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;padding:30px;border-radius:22px;border:1px solid rgba(197,220,118,.16);background:radial-gradient(700px 220px at 0% 0%,rgba(197,220,118,.06),transparent 60%),linear-gradient(180deg,rgba(20,28,22,.8),rgba(11,16,13,.88));box-shadow:var(--shadow)}.cta h2{font-size:clamp(1.8rem,3.7vw,3rem);line-height:1.08;letter-spacing:-.045em;margin:0}.cta p{max-width:740px;color:#929c94;line-height:1.6;font-size:12px}.contacts{display:grid;gap:8px}.contact{padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:11px;white-space:nowrap}.contact i{color:var(--acid);width:18px}
+    footer{padding:28px 0 40px;color:#69736b;font-size:9px;display:flex;justify-content:space-between;gap:20px;border-top:1px solid rgba(255,255,255,.05)}
+    /* Readable body copy and compact interactive disclosures for the web version. */
+    .metric span{font-size:11px;line-height:1.4;color:#8d978f}.session-top span{font-size:10px}.sf{font-size:11px;line-height:1.45}.sf b{font-size:12px}
+    .label{font-size:11px}.copy{font-size:15px;line-height:1.72;color:#9fa9a1}.card p{font-size:14px;line-height:1.65}.step h3{font-size:15px}.step p{font-size:13px;line-height:1.6;color:#98a29a}
+    .risk h3{font-size:15px}.risk p{font-size:13px;line-height:1.62;color:#9aa49c}.tag{font-size:10px}.tech-note{font-size:13px;line-height:1.6}
+    .phase-head p{font-size:14px;line-height:1.58;color:#98a29a}.price span{font-size:12px}.deliver b{font-size:13px}.deliver span{font-size:12px;line-height:1.55;color:#929c94}.gate{font-size:13px;line-height:1.6}
+    .subphase h4{font-size:15px}.subphase .sp-price{font-size:14px}.subphase p{font-size:13px;line-height:1.6;color:#98a29a}.mini-list{gap:7px}.mini-list span{font-size:12px;line-height:1.5}
+    .budget-box span{font-size:11px}.budget-box small{font-size:11px;line-height:1.45}.scope-item{font-size:13px;line-height:1.6}.chip{font-size:11px}.role b{font-size:12px}.role span{font-size:11px;line-height:1.4}.cta p{font-size:14px;line-height:1.65}.contact{font-size:13px}footer{font-size:11px;line-height:1.5;color:#818c83}
+    .disclosure-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;gap:14px;border:0;color:#dbe3da;background:rgba(255,255,255,.016);font:700 13px/1.4 Inter,system-ui,sans-serif;text-align:left;cursor:pointer;transition:background .2s,color .2s}.disclosure-toggle:hover{background:rgba(197,220,118,.045);color:#fff}.disclosure-toggle:focus-visible{outline:2px solid var(--acid);outline-offset:-3px}.disclosure-action{display:inline-flex;align-items:center;gap:9px;color:#aebaaf;font-size:12px}.disclosure-toggle i{color:var(--acid);transition:transform .2s}.disclosure-toggle[aria-expanded=true] i{transform:rotate(180deg)}
+    .phase>.disclosure-toggle{padding:14px 24px;border-top:1px solid rgba(255,255,255,.03)}.phase>.disclosure-toggle[aria-expanded=true]{border-bottom:1px solid rgba(255,255,255,.06)}.scope-card>.disclosure-toggle{padding:11px 12px;border:1px solid rgba(255,255,255,.07);border-radius:10px}.scope-card>.disclosure-toggle+.scope-list:not([hidden]){margin-top:14px}
+    .contact{width:100%;display:flex;align-items:center;gap:8px;padding:12px 13px;font:600 13px/1.35 Inter,system-ui,sans-serif;color:var(--text);text-align:left;text-decoration:none;background:rgba(255,255,255,.018);cursor:pointer;transition:border-color .2s,background .2s}.contact:hover{border-color:rgba(197,220,118,.28);background:rgba(197,220,118,.045)}.contact:focus-visible{outline:2px solid var(--acid);outline-offset:2px}.contact-state{margin-left:auto;color:#8f9991;font-size:11px;font-weight:700}.contact.copied{border-color:rgba(197,220,118,.34);background:rgba(197,220,118,.06)}.contact.copied .contact-state{color:var(--acid)}
+    .reveal{opacity:0;transform:translateY(18px);transition:.6s cubic-bezier(.2,.7,.2,1)}.reveal.visible{opacity:1;transform:none}
+
+    @media(max-width:980px){.hero-in{grid-template-columns:1fr}.session-card{max-width:720px}.hero{padding-top:120px}.metrics{max-width:760px}.risk-grid{grid-template-columns:repeat(2,1fr)}.deliverables{grid-template-columns:repeat(2,1fr)}.team-strip{grid-template-columns:repeat(4,1fr)}.scope-grid{grid-template-columns:1fr}.phase-head{grid-template-columns:70px 1fr}.price{grid-column:2;text-align:left;display:flex;align-items:baseline;gap:10px}.price span{margin:0}.process{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:720px){.nav-links{display:none}.nav-in{height:64px}.nav-cta{font-size:10px}.hero{min-height:auto;padding:108px 0 64px}.hero-in{gap:32px}.metrics{grid-template-columns:repeat(2,1fr)}.section{padding:66px 0}.head{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.process{grid-template-columns:1fr}.risk-grid{grid-template-columns:1fr}.validation{padding:20px}.phase-head{grid-template-columns:1fr;padding:18px}.phase-no{font-size:28px}.price{grid-column:1;display:block}.phase-body{padding:16px 18px}.deliverables,.subphase-grid{grid-template-columns:1fr}.budget-row{grid-template-columns:1fr}.team-strip{grid-template-columns:repeat(2,1fr)}.cta{grid-template-columns:1fr;padding:22px}.contacts{justify-self:stretch}.contact{white-space:normal}footer{flex-direction:column}.session-foot{grid-template-columns:1fr}.session-card{padding:10px}.hero:after{background:linear-gradient(180deg,rgba(9,13,11,.30),rgba(9,13,11,.90) 50%,var(--bg))}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{opacity:1;transform:none;transition:none}}
+    @media(max-width:720px){h1{font-size:clamp(2.55rem,11vw,3.2rem);line-height:.98}.phase>.disclosure-toggle{padding:14px 18px}}
+    @media print{.nav,#bgCanvas,.actions{display:none!important}body{background:#fff;color:#111}.hero{min-height:auto;padding:30px 0}.hero:after{display:none}.hero-in{grid-template-columns:1fr}.session-card,.card,.validation,.phase,.scope-card,.budget-box,.role,.cta{background:#fff!important;color:#111!important;box-shadow:none!important;border-color:#ccc!important}.lead,.copy,.card p,.phase-head p,.subphase p,.scope-item,.cta p,.risk p{color:#444!important}.section{padding:34px 0}.reveal{opacity:1;transform:none}.hero-title span{color:#111;background:none}.session-card{display:none}}
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top"><span class="brand-mark"><i class="fa-solid fa-cubes-stacked"></i></span><span><b>XR TACTICAL</b><small>Commercial proposal</small></span></a>
+    <div class="nav-links"><a href="#product">Продукт</a><a href="#validation">Валидация</a><a href="#roadmap">Этапы</a><a href="#scope">Scope</a></div>
+    <a class="nav-cta" href="#roadmap"><i class="fa-solid fa-layer-group"></i> Бюджет</a>
+  </div>
+</nav>
+
+<main id="top">
+<section class="hero">
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+  <div class="wrap hero-in">
+    <div>
+      <div class="eyebrow"><i class="fa-solid fa-circle"></i> Meta Quest 3 · Unity / Unreal Engine · XR</div>
+      <h1>Реальная площадка.<br><span>Тактический XR‑сценарий поверх неё.</span></h1>
+      <p class="lead">XR‑тренажёр для Meta Quest 3: реальная площадка дополняется виртуальными укрытиями, объектами, оружием и игровыми сценариями. Реализацию можем вести на Unity или Unreal Engine — движок выбираем после первичного анализа. Спорные технические решения сначала проверяем прототипом, чтобы не закладывать невыполнимые обещания в MVP.</p>
+      <div class="actions"><a class="btn primary" href="#roadmap"><i class="fa-solid fa-arrow-down"></i> Этапы и бюджет</a><a class="btn" href="#validation"><i class="fa-solid fa-flask"></i> Технические риски</a></div>
+      <div class="metrics"><div class="metric"><b>до 5×5</b><span>цель MVP после сетевых тестов</span></div><div class="metric"><b>до 7×7</b><span>этап масштабирования</span></div><div class="metric"><b>2,6 млн ₽</b><span>pre‑prod + путь до MVP</span></div><div class="metric"><b>3 этапа</b><span>pre‑prod → MVP → развитие</span></div></div>
+    </div>
+
+    <div class="session-card reveal">
+      <div class="session-top"><b>Tactical XR / concept</b><span>visual concept · not architecture</span></div>
+      <svg class="session-svg" viewBox="0 0 620 520" role="img" aria-label="Концептуальная тактическая XR-сцена">
+        <defs>
+          <linearGradient id="floor2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#172119"/><stop offset="1" stop-color="#0a0f0c"/></linearGradient>
+          <linearGradient id="wall2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2b382d"/><stop offset="1" stop-color="#121914"/></linearGradient>
+          <filter id="glow2"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <rect width="620" height="520" fill="#0a0f0c"/>
+        <path d="M72 105 L548 82 L584 414 L52 444 Z" fill="url(#floor2)" stroke="#303d32"/>
+        <g stroke="#71816f" stroke-opacity=".12" stroke-width="1">
+          <path d="M76 151 L555 132"/><path d="M70 201 L562 190"/><path d="M65 253 L568 249"/><path d="M60 309 L575 310"/><path d="M55 368 L581 374"/>
+          <path d="M133 102 L120 440"/><path d="M214 98 L205 435"/><path d="M296 94 L292 430"/><path d="M378 90 L380 426"/><path d="M458 86 L467 421"/><path d="M527 83 L544 416"/>
+        </g>
+        <g fill="url(#wall2)" stroke="#8da18a" stroke-opacity=".58">
+          <path d="M235 151 L387 143 L387 191 L235 198 Z"/><path d="M387 143 L417 157 L416 203 L387 191 Z"/>
+          <path d="M133 286 L236 281 L236 325 L133 332 Z"/><path d="M236 281 L260 295 L259 339 L236 325 Z"/>
+          <path d="M382 296 L486 292 L486 337 L382 342 Z"/><path d="M486 292 L510 307 L510 351 L486 337 Z"/>
+          <path d="M286 228 L343 226 L343 272 L286 275 Z"/>
+        </g>
+        <g fill="none" stroke="#c5dc76" stroke-opacity=".28" stroke-dasharray="6 7">
+          <path d="M111 378 C188 327,208 261,286 246 S432 233,520 167"/>
+          <path d="M126 177 C215 190,247 216,332 271 S451 352,520 366"/>
+          <ellipse cx="318" cy="260" rx="216" ry="138"/>
+        </g>
+        <g filter="url(#glow2)">
+          <circle cx="133" cy="179" r="7" fill="#ef7055"/><circle cx="181" cy="364" r="7" fill="#ef7055"/>
+          <circle cx="502" cy="161" r="7" fill="#61b8dd"/><circle cx="478" cy="365" r="7" fill="#61b8dd"/>
+          <circle cx="319" cy="260" r="5" fill="#c5dc76"/>
+        </g>
+        <g font-family="Inter" font-size="10" font-weight="700">
+          <rect x="70" y="67" width="124" height="27" rx="9" fill="#101611" stroke="#fff" stroke-opacity=".09"/><text x="88" y="85" fill="#b9c3ba">VIRTUAL COVER</text>
+          <rect x="414" y="61" width="121" height="27" rx="9" fill="#101611" stroke="#fff" stroke-opacity=".09"/><text x="432" y="79" fill="#b9c3ba">XR SCENARIO</text>
+          <rect x="224" y="438" width="174" height="27" rx="9" fill="#101611" stroke="#fff" stroke-opacity=".09"/><text x="246" y="456" fill="#b9c3ba">REAL SPACE + VIRTUAL LAYER</text>
+        </g>
+        <g stroke="#ef7055" stroke-opacity=".4"><path d="M133 179 l22 -12"/><path d="M181 364 l24 -9"/></g>
+        <g stroke="#61b8dd" stroke-opacity=".4"><path d="M502 161 l-25 9"/><path d="M478 365 l-27 -8"/></g>
+      </svg>
+      <div class="session-foot"><div class="sf"><b>Реальная основа</b>Площадка остаётся физическим пространством игрока.</div><div class="sf"><b>Виртуальный слой</b>Укрытия, объекты и сценарии добавляются в XR.</div><div class="sf"><b>Решение — после тестов</b>Трекинг и синхронизацию подтверждаем на R&D.</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="product" class="section">
+<div class="wrap">
+  <div class="head reveal"><div><div class="label">01 · Product experience</div><h2 class="title">Что именно получает игрок.</h2><p class="copy">Не пытаемся упаковать в MVP весь будущий продукт. Сначала создаём стабильное ядро XR‑сценария, которое можно показать, проверить на реальной площадке и затем масштабировать.</p></div><span class="pill note-pill"><i class="fa-solid fa-layer-group"></i> MVP first</span></div>
+  <div class="grid3">
+    <article class="card reveal"><div class="icon"><i class="fa-solid fa-street-view"></i></div><h3>Реальная площадка</h3><p>Игрок перемещается ногами в физическом пространстве. Перед сессией задаются рабочая зона, безопасные границы и способ пространственной калибровки.</p></article>
+    <article class="card reveal"><div class="icon"><i class="fa-solid fa-cubes"></i></div><h3>Общий XR‑сценарий</h3><p>Поверх пространства размещаются согласованные укрытия, игровые зоны, интерфейс и объекты. У всех устройств должна быть единая система координат.</p></article>
+    <article class="card reveal"><div class="icon"><i class="fa-solid fa-users-viewfinder"></i></div><h3>Командный gameplay</h3><p>Командный режим, попадания, предметы и логика раунда работают в общей игровой сессии. Цель MVP — до 5×5 после сетевой проверки.</p></article>
+  </div>
+</div>
+</section>
+
+<section class="section sm">
+<div class="wrap">
+  <div class="head reveal"><div><div class="label">02 · Session flow</div><h2 class="title">Одна сессия — четыре понятных шага.</h2></div></div>
+  <div class="process"><div class="step reveal"><div class="step-no">01</div><h3>Подготовить площадку</h3><p>Проверить игровую зону, сеть, условия трекинга и набор устройств.</p></div><div class="step reveal"><div class="step-no">02</div><h3>Проверить XR‑связку</h3><p>На прототипе подтвердить трекинг, синхронизацию и работу выбранного подхода.</p></div><div class="step reveal"><div class="step-no">03</div><h3>Запустить сценарий</h3><p>Создать команды, выдать согласованный набор контента и стартовать раунд.</p></div><div class="step reveal"><div class="step-no">04</div><h3>Получить результат</h3><p>Завершить сессию, показать базовую статистику и сохранить согласованный набор результатов.</p></div></div>
+</div>
+</section>
+
+<section id="validation" class="section">
+<div class="wrap validation">
+  <div class="head reveal"><div><div class="label">03 · Technical validation</div><h2 class="title">Где нужны тесты — так и пишем.</h2><p class="copy">Ключевые XR‑риски проверяем на реальном Quest 3 и тестовой площадке до масштабирования разработки.</p></div><span class="tag amber"><i class="fa-solid fa-flask-vial"></i> prototype gate</span></div>
+  <div class="risk-grid">
+    <div class="risk reveal"><div class="risk-top"><h3>Общая система координат нескольких Quest</h3><span class="tag amber">test</span></div><p>Проверяем повторную привязку, ошибку совмещения, восстановление после потери трекинга и сценарий повторной калибровки.</p></div>
+    <div class="risk reveal"><div class="risk-top"><h3>Большая / открытая площадка</h3><span class="tag amber">R&D</span></div><p>Не считаем автоматически решённой. Требуются тесты в целевых условиях; при необходимости меняется схема привязки и калибровки.</p></div>
+    <div class="risk reveal"><div class="risk-top"><h3>5×5 на целевой сети</h3><span class="tag amber">load</span></div><p>Архитектуру строим под 5×5, но финальный лимит подтверждаем профилированием CPU/GPU, сетевого трафика и задержек.</p></div>
+    <div class="risk reveal"><div class="risk-top"><h3>Физические 3D‑макеты</h3><span class="tag amber">ergonomics</span></div><p>Проверяем крепление контроллера, хват, перекрытия камер, совмещение виртуальной модели и удобство калибровки.</p></div>
+    <div class="risk reveal"><div class="risk-top"><h3>Реальная геометрия / occlusion</h3><span class="tag amber">API</span></div><p>Фиксируем только тот объём взаимодействия с окружением, который устойчиво работает на выбранном пайплайне и площадке.</p></div>
+    <div class="risk reveal"><div class="risk-top"><h3>7×7 и дальнейшее масштабирование</h3><span class="tag amber">stage 3</span></div><p>Переходим после стабильного 5×5. Это отдельная оптимизационная задача, а не бесплатное расширение количества игроков.</p></div>
+  </div>
+  <div class="tech-note reveal"><i class="fa-solid fa-circle-info"></i><div>Meta предоставляет Spatial / Shared Spatial Anchors и co-location инструменты как основу для общей привязки контента. Но крупные, сложные или открытые пространства мы не считаем автоматически закрытым кейсом: способ привязки подтверждается техническим прототипом на целевой площадке.</div></div>
+</div>
+</section>
+
+<section id="roadmap" class="section">
+<div class="wrap">
+  <div class="head reveal"><div><div class="label">04 · Production roadmap</div><h2 class="title">Три этапа. MVP — четырьмя понятными итерациями.</h2><p class="copy">Сначала фиксируем требования и риски, затем собираем ограниченный пилотный MVP по итерациям, после проверки — расширяем продукт отдельным этапом.</p></div><span class="tag green"><i class="fa-solid fa-shield-halved"></i> scope controlled</span></div>
+
+  <div class="roadmap">
+    <article class="phase reveal">
+      <div class="phase-head"><div class="phase-no">01</div><div><h3>Препродакшен и техническое проектирование</h3><p>Отдельный этап до основной разработки. Его можем совместно проработать с командой заказчика и зафиксировать итоговый scope MVP.</p></div><div class="price"><b>~ 300 000 ₽</b><span>3–4 недели</span></div></div>
+      <div class="phase-body">
+        <div class="deliverables"><div class="deliver"><b>ТЗ + MVP scope</b><span>Сценарии, функции и границы первой версии.</span></div><div class="deliver"><b>Техническая концепция</b><span>Проверяем ключевые подходы и ограничения Quest 3.</span></div><div class="deliver"><b>Asset audit</b><span>Что покупаем, дорабатываем или создаём сами.</span></div><div class="deliver"><b>Production plan</b><span>Roadmap, критерии приёмки и уточнённая смета.</span></div></div>
+        <div class="gate"><b>Выход этапа:</b> согласованное ТЗ, состав MVP, перечень контента, план прототипа и уточнённая оценка разработки.</div>
+      </div>
+    </article>
+
+    <article class="phase mvp reveal">
+      <div class="phase-head"><div class="phase-no">02</div><div><h3>XR MVP / пилотная версия</h3><p>Ориентир — 2,3 млн ₽ после препродакшена. MVP разбит на четыре закрываемые итерации с ограниченным scope.</p></div><div class="price"><b>~ 2 300 000 ₽</b><span>ориентир 4–5 мес. после pre‑prod</span></div></div>
+      <div class="phase-body">
+        <div class="subphase-grid">
+          <div class="subphase"><div class="subtop"><h4>2.1 · Technical R&D prototype</h4><div class="sp-price">~ 500 000 ₽</div></div><p>Доказать самые рискованные части на Quest 3 до производства контента.</p><div class="mini-list"><span>Passthrough + игровая зона</span><span>spatial setup / калибровка</span><span>2 устройства в одной сессии</span><span>1 тестовое оружие / предмет</span><span>проверка физического макета</span><span>полевой тест и решение go / revise</span></div></div>
+          <div class="subphase"><div class="subtop"><h4>2.2 · XR core + multiplayer</h4><div class="sp-price">~ 650 000 ₽</div></div><p>Собрать устойчивое игровое ядро.</p><div class="mini-list"><span>player rig + hands</span><span>network game state</span><span>weapon framework</span><span>команды / попадания / раунд</span></div></div>
+          <div class="subphase"><div class="subtop"><h4>2.3 · Gameplay + content integration</h4><div class="sp-price">~ 750 000 ₽</div></div><p>Собрать коммерчески показываемый набор контента поверх стабильного ядра.</p><div class="mini-list"><span>приоритетный набор 3–5 моделей после asset audit</span><span>до 6–10 модульных визуальных вариантов бойцов</span><span>XR‑укрытия и элементы сценария</span><span>1 основной игровой режим</span><span>1–2 базовых тренировочных сценария</span><span>UI и базовая статистика</span></div></div>
+          <div class="subphase"><div class="subtop"><h4>2.4 · QA, optimization + pilot</h4><div class="sp-price">~ 400 000 ₽</div></div><p>Подготовить MVP к реальному пилоту.</p><div class="mini-list"><span>Quest performance pass</span><span>сетевые тесты и проверка 5×5</span><span>испытание на площадке</span><span>critical fixes + pilot build</span></div></div>
+        </div>
+        <div class="gate"><b>Важно:</b> масштаб площадки, способ пространственной синхронизации, физические макеты и стабильный 5×5 подтверждаются тестами. Если прототип показывает другой объём работ, расширение scope оформляется отдельно.</div>
+      </div>
+    </article>
+
+    <article class="phase scale reveal">
+      <div class="phase-head"><div class="phase-no">03</div><div><h3>Расширение продукта после MVP</h3><p>После пилота расширяем только те направления, которые действительно нужны продукту.</p></div><div class="price"><b>от 2 000 000 ₽</b><span>фиксируется после пилота MVP</span></div></div>
+      <div class="phase-body">
+        <div class="deliverables"><div class="deliver"><b>Контентная библиотека</b><span>Расширенный согласованный каталог оружия, экипировки, персонажей, props и XR‑наборов. Новые interaction families оцениваются отдельно.</span></div><div class="deliver"><b>Instructor / Analytics</b><span>Операторский интерфейс, профили, история сессий, расширенная статистика, отчёты и другие функции по согласованному ТЗ.</span></div><div class="deliver"><b>Scale 7×7</b><span>Нагрузочные тесты, оптимизация сетевого и графического слоя, проверка целевой инфраструктуры.</span></div><div class="deliver"><b>Large-space R&D</b><span>Отдельная проработка больших / открытых площадок, если этот сценарий подтверждён заказчиком как приоритетный.</span></div></div>
+        <div class="gate"><b>Контент:</b> расширенный каталог оружия, персонажей и сценариев оценивается пакетами после MVP — по фактическому перечню моделей и механик.</div>
+      </div>
+    </article>
+  </div>
+
+  <div class="budget-row reveal"><div class="budget-box"><span>Этап 1 · pre‑production</span><b>~ 300 тыс. ₽</b><small>отдельный закрываемый результат</small></div><div class="budget-box"><span>До пилотного MVP</span><b>~ 2,6 млн ₽</b><small>300 тыс. + ориентир 2,3 млн</small></div><div class="budget-box"><span>Развитая версия</span><b>от ~ 4,6 млн ₽</b><small>конкретный объём Stage 3 — после MVP</small></div></div>
+  <div class="gate reveal" style="margin-top:14px"><b>Коммерческий подход:</b> первый проект можно вести как пилотный вход с жёстко зафиксированным MVP. Следующие сценарии, дополнительные модели, новые режимы и второй проект обсуждаются отдельным планом после проверки ядра.</div>
+</div>
+</section>
+
+<section id="scope" class="section sm">
+<div class="wrap">
+  <div class="head reveal"><div><div class="label">05 · Content & commercial scope</div><h2 class="title">Конкурентная цена держится на правильном scope.</h2><p class="copy">Мы не моделируем весь контент с нуля и не закладываем бесконечное число уникальных систем. На препродакшене для каждой позиции выбирается стратегия buy / modify / build.</p></div></div>
+  <div class="scope-grid">
+    <div class="scope-card reveal"><h3>Ориентир состава MVP</h3><div class="scope-list"><div class="scope-item"><i class="fa-solid fa-check"></i><span><b>3–5 приоритетных моделей оружия</b> из согласованного candidate pool после проверки моделей и лицензий.</span></div><div class="scope-item"><i class="fa-solid fa-check"></i><span><b>2 базовые interaction families</b>, чтобы не программировать каждую модель как отдельную игру.</span></div><div class="scope-item"><i class="fa-solid fa-check"></i><span><b>6–10 визуально различимых бойцов</b> преимущественно через модульную экипировку и вариации, а не 10 уникальных персонажей с нуля.</span></div><div class="scope-item"><i class="fa-solid fa-check"></i><span><b>1 основной режим + 1 базовый тренировочный сценарий</b> в пилотной версии; точный список фиксируется в ТЗ.</span></div><div class="scope-item"><i class="fa-solid fa-check"></i><span><b>Базовая статистика MVP</b>; глубокая аналитика, реплеи, heatmaps и инструкторская аналитика — Stage 3.</span></div></div></div>
+    <div class="scope-card reveal"><h3>Что не включаем автоматически</h3><div class="scope-list"><div class="scope-item out"><i class="fa-solid fa-xmark"></i><span>Покупку Quest 3, сетевого оборудования и другой физической инфраструктуры.</span></div><div class="scope-item out"><i class="fa-solid fa-xmark"></i><span>Серийное производство 3D‑печатных оружейных корпусов — отдельный проект / смета.</span></div><div class="scope-item out"><i class="fa-solid fa-xmark"></i><span>Неограниченное число моделей, карт, персонажей или режимов.</span></div><div class="scope-item out"><i class="fa-solid fa-xmark"></i><span>Платные marketplace‑ассеты и лицензии сверх согласованного лимита — согласуются до покупки.</span></div><div class="scope-item out"><i class="fa-solid fa-xmark"></i><span>Гарантию работы на любой открытой площадке без предварительного технического теста.</span></div></div></div>
+  </div>
+</div>
+</section>
+
+<section class="section sm">
+<div class="wrap">
+  <div class="head reveal"><div><div class="label">06 · Project team</div><h2 class="title">Команда проекта — 5 специалистов.</h2><p class="copy">Роли подключаются по мере необходимости этапа — без искусственного раздувания команды и бюджета.</p></div></div>
+  <div class="team-strip reveal">
+    <div class="role"><i class="fa-solid fa-list-check"></i><b>Project Manager</b><span>scope / сроки / коммуникация</span></div>
+    <div class="role"><i class="fa-solid fa-code"></i><b>XR Developer</b><span>core / network / build</span></div>
+    <div class="role"><i class="fa-solid fa-cube"></i><b>3D Modeler</b><span>модели / optimization</span></div>
+    <div class="role"><i class="fa-solid fa-map"></i><b>Level Designer</b><span>сцены / окружение</span></div>
+    <div class="role"><i class="fa-solid fa-person-running"></i><b>Animator</b><span>rig / animation</span></div>
+  </div>
+</div>
+</section>
+
+<section class="section">
+<div class="wrap cta reveal">
+  <div><div class="label">Следующий шаг</div><h2>Начать с препродакшена.<br>Зафиксировать MVP после анализа.</h2><p>На первом этапе совместно фиксируем требования, риски, состав MVP и план разработки. После этого принимаем решение о запуске production на понятной базе.</p></div>
+  <div class="contacts">
+    <button class="contact contact-copy" type="button" data-copy-email="BennuPZ@ya.ru" aria-label="Скопировать адрес электронной почты BennuPZ@ya.ru"><i class="fa-solid fa-envelope" aria-hidden="true"></i><span>BennuPZ@ya.ru</span><span class="contact-state">Копировать</span></button>
+    <a class="contact" href="tel:+79832016263" aria-label="Позвонить по номеру +7 983 201-62-63"><i class="fa-solid fa-phone" aria-hidden="true"></i><span>+7 (983) 201‑62‑63</span><span class="contact-state">Позвонить</span></a>
+  </div>
+</div>
+</section>
+</main>
+
+<footer class="wrap"><span>XR Tactical · предварительное коммерческое предложение</span><span>Сроки, окончательный scope и состав MVP уточняются по результатам Stage 1. Любые расширения после согласованного MVP оцениваются отдельно.</span></footer>
+
+<script>
+(() => {
+  const c=document.getElementById('bgCanvas'),x=c.getContext('2d',{alpha:true});let w,h,dpr=1,px=0,py=0,tx=0,ty=0;const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function resize(){const r=c.getBoundingClientRect();dpr=Math.min(devicePixelRatio||1,1.6);w=r.width;h=r.height;c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);x.setTransform(dpr,0,0,dpr,0,0)}
+  function line(a,b,c1,d,alpha=.1,col='197,220,118'){x.strokeStyle=`rgba(${col},${alpha})`;x.beginPath();x.moveTo(a,b);x.lineTo(c1,d);x.stroke()}
+  function draw(t=0){x.clearRect(0,0,w,h);px+=(tx-px)*.04;py+=(ty-py)*.04;const vx=w*.72+px*18,hy=h*.36+py*8;const g=x.createRadialGradient(vx,hy,0,vx,hy,Math.min(w,h)*.62);g.addColorStop(0,'rgba(197,220,118,.07)');g.addColorStop(1,'rgba(197,220,118,0)');x.fillStyle=g;x.fillRect(0,0,w,h);for(let i=-11;i<=11;i++)line(vx,hy,vx+i*w/12,h*.98,.055);for(let j=1;j<15;j++){const k=j/15,y=hy+(h-hy)*Math.pow(k,1.7);line(0,y,w,y,.035+k*.025)}
+    const boxes=[[-130,250,82,55],[-10,320,95,68],[120,235,72,82],[220,390,110,52],[-230,430,78,72],[40,500,120,58]];boxes.forEach((b,i)=>{const z=b[1],s=430/(z+330),cx=vx+b[0]*s,cy=hy+z*.37,ww=b[2]*s,hh=b[3]*s;const lift=35*s;x.fillStyle='rgba(101,118,95,.025)';x.fillRect(cx-ww/2,cy-hh/2-lift,ww,hh);x.strokeStyle='rgba(197,220,118,.12)';x.strokeRect(cx-ww/2,cy-hh/2-lift,ww,hh);line(cx-ww/2,cy-hh/2,cx-ww/2,cy-hh/2-lift,.12);line(cx+ww/2,cy-hh/2,cx+ww/2,cy-hh/2-lift,.12)});if(!reduce)requestAnimationFrame(draw)}
+  addEventListener('resize',resize,{passive:true});addEventListener('pointermove',e=>{tx=(e.clientX/innerWidth-.5)*2;ty=(e.clientY/innerHeight-.5)*2},{passive:true});resize();draw();
+})();
+(() => {const els=[...document.querySelectorAll('.reveal')];if(matchMedia('(prefers-reduced-motion: reduce)').matches){els.forEach(e=>e.classList.add('visible'));return}const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target)}}),{threshold:.08,rootMargin:'0px 0px -30px'});els.forEach(e=>io.observe(e))})();
+(() => {
+  let disclosureId=0;
+  function addDisclosure(container,content,label){
+    if(!container||!content)return;
+    content.hidden=true;
+    content.id=content.id||'disclosure-'+(++disclosureId);
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='disclosure-toggle';
+    button.setAttribute('aria-expanded','false');
+    button.setAttribute('aria-controls',content.id);
+    button.innerHTML='<span>'+label+'</span><span class="disclosure-action"><span>Развернуть</span><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></span>';
+    content.before(button);
+    button.addEventListener('click',()=>{
+      const expanded=button.getAttribute('aria-expanded')==='true';
+      button.setAttribute('aria-expanded',String(!expanded));
+      content.hidden=expanded;
+      button.querySelector('.disclosure-action span').textContent=expanded?'Развернуть':'Свернуть';
+    });
+  }
+  document.querySelectorAll('.phase').forEach(phase=>addDisclosure(phase,phase.querySelector('.phase-body'),'Состав этапа'));
+  document.querySelectorAll('.scope-card').forEach(card=>addDisclosure(card,card.querySelector('.scope-list'),'Подробный список'));
+})();
+(() => {
+  document.querySelectorAll('[data-copy-email]').forEach(button=>{
+    button.addEventListener('click',async()=>{
+      const email=button.dataset.copyEmail;
+      const state=button.querySelector('.contact-state');
+      try{
+        if(navigator.clipboard&&window.isSecureContext){
+          await navigator.clipboard.writeText(email);
+        }else{
+          const area=document.createElement('textarea');
+          area.value=email;
+          area.setAttribute('readonly','');
+          area.style.position='fixed';
+          area.style.opacity='0';
+          document.body.appendChild(area);
+          area.select();
+          document.execCommand('copy');
+          area.remove();
+        }
+        button.classList.add('copied');
+        state.textContent='Скопировано';
+        setTimeout(()=>{button.classList.remove('copied');state.textContent='Копировать'},1800);
+      }catch{
+        state.textContent='Не удалось';
+      }
+    });
+  });
+})();
+</script>
+</body>
+</html>
